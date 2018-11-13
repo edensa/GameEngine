@@ -7,5 +7,5 @@
 		#define ENGINE_API __declspec(dllimport)
 	#endif
 #elif
-	#error "Hazel only supports windows"!
+	#error "Engine only supports windows"!
 #endif

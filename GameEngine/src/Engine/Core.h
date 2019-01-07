@@ -6,6 +6,8 @@
 	#else
 		#define ENGINE_API __declspec(dllimport)
 	#endif
-#elif
+#else
 	#error "Engine only supports windows"!
 #endif
+
+#define BIT(b) (1 << b)

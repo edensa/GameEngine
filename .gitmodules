@@ -2,3 +2,6 @@
 	path = GameEngine/vendor/spdlog
 	url = https://github.com/gabime/spdlog
 	branch = v1.2.1
+[submodule "GameEngine/vendor/glfw"]
+	path = GameEngine/vendor/glfw
+	url = git@github.com:edensa/glfw.git

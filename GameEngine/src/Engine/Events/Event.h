@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ngpch.h"
+
 #include "Engine/Core.h"
 
 namespace engine

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "ngpch.h"
-
 // For use by Engine applications
 
 #include "Engine/Application.h"

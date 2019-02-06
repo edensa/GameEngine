@@ -1,3 +1,9 @@
 .vs/*
 bin/*
 bin-int/*
+GenerateProjects.bat
+*.sln
+*.DotSettings.user
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user

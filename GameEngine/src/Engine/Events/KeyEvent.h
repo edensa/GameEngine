@@ -42,6 +42,7 @@ namespace engine
 
 	class ENGINE_API KeyReleasedEvent : public KeyEvent
 	{
+	public:
 		KeyReleasedEvent(int keycode)
 			: KeyEvent(keycode) {}
 

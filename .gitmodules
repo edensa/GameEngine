@@ -5,3 +5,6 @@
 [submodule "GameEngine/vendor/glfw"]
 	path = GameEngine/vendor/glfw
 	url = git@github.com:edensa/glfw.git
+[submodule "GameEngine/vendor/imgui"]
+	path = GameEngine/vendor/imgui
+	url = git@github.com:edensa/imgui.git

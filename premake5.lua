@@ -1,5 +1,6 @@
 workspace "GameEngine"
 	architecture "x64"
+	startproject "Sandbox"
 
 	configurations
 	{
@@ -20,6 +21,7 @@ project "GameEngine"
 	location "GameEngine"
 	kind "SharedLib"
 	language "C++"
+	staticruntime "Off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -48,7 +50,6 @@ project "GameEngine"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
@@ -64,23 +65,24 @@ project "GameEngine"
 
 	filter "configurations:Debug"
 		defines { "ENGINE_DEBUG" }
-		-- symbols "On"
+		runtime "Debug"
+		symbols "On"
 
 	filter "configurations:Release"
 		defines { "ENGINE_RELEASE" }
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines { "ENGINE_DIST" }
+		runtime "Release"
 		optimize "On"
-
-	filter { "system:windows", "configurations:Release" }
-		buildoptions "/MT"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "Off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -104,7 +106,6 @@ project "Sandbox"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
@@ -115,15 +116,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines { "ENGINE_DEBUG" }
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines { "ENGINE_RELEASE" }
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines { "ENGINE_DIST" }
+		runtime "Release"
 		optimize "On"
-
-	filter { "system:windows", "configurations:Release" }
-		buildoptions "/MT"

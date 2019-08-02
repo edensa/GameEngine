@@ -1,21 +1,35 @@
 #include <Engine.h>
 
+#include <imgui.h>
 
 class ExampleLayer : public engine::Layer
 {
 public:
 	ExampleLayer()
 	{
+		
+	}
+
+	virtual void OnImGuiRender() override
+	{
+		ImGui::Begin("Test");
+		ImGui::Text("Hello World");
+		ImGui::End();
 	}
 
 	void OnUpdate() override
 	{
-		ENGINE_INFO("ExampleLayer::Update");
+		//ENGINE_INFO("ExampleLayer::Update");
+
+		if (engine::Input::IsKeyPressed(ENGINE_KEY_TAB))
+			ENGINE_INFO("Tab key is pressed!");
+
+
 	}
 
 	void OnEvent(engine::Event& event) override
 	{
-		ENGINE_TRACE("{0}", event);
+		//ENGINE_TRACE("{0}", event);
 	}
 };
 
@@ -25,7 +39,6 @@ public:
 	Sandbox()
 	{
 		PushLayer(new ExampleLayer());
-		PushOverlay(new engine::ImGuiLayer());
 	}
 
 	virtual ~Sandbox()

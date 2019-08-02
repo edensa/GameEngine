@@ -15,12 +15,14 @@ engine::LayerStack::~LayerStack()
 void engine::LayerStack::PushLayer(Layer* layer)
 {
 	m_Layers.emplace(InsertIterator(), layer);
+	layer->OnAttach();
 	m_InsertPoint++;
 }
 
 void engine::LayerStack::PushOverlay(Layer* overlay)
 {
 	m_Layers.emplace_back(overlay);
+	overlay->OnAttach();
 }
 
 void engine::LayerStack::PopLayer(Layer* layer)
@@ -30,14 +32,17 @@ void engine::LayerStack::PopLayer(Layer* layer)
 	{
 		m_Layers.erase(it);
 		m_InsertPoint--;
+		layer->OnDetach();
 	}
 }
 
 void engine::LayerStack::PopOverlay(Layer* overlay)
 {
 	auto it = std::find(InsertIterator(), m_Layers.end(), overlay);
-	if (it != m_Layers.end())
+	if (it != m_Layers.end()) {
 		m_Layers.erase(it);
+		overlay->OnDetach();
+	}
 }
 
 std::vector<engine::Layer*>::iterator engine::LayerStack::InsertIterator()

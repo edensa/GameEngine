@@ -5,6 +5,7 @@
 
 #include <glad/glad.h>
 #include "Input.h"
+#include "Renderer/Buffer.h"
 
 namespace engine {
 
@@ -27,27 +28,24 @@ namespace engine {
 		glGenVertexArrays(1, &m_VertexArray);
 		glBindVertexArray(m_VertexArray);
 
-		glGenBuffers(1, &m_VertexBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
-
 		float verticies[3 * 3] = {
 			-0.5f, -0.5f, 0.0f,
 			 0.5f, -0.5f, 0.0f,
 			 0.0f,  0.5f, 0.0f,
 		};
-		
-		glBufferData(GL_ARRAY_BUFFER, sizeof(verticies), verticies, GL_STATIC_DRAW);
+
+		m_VertexBuffer.reset(VertexBuffer::Create(verticies, sizeof(verticies)));
+		m_VertexBuffer->Bind();
+
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), nullptr);
-
-		glGenBuffers(1, &m_IndexBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer);
 
 		unsigned indicies[3] = {
 			0, 1, 2
 		};
 
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicies), indicies, GL_STATIC_DRAW);
+		m_IndexBuffer.reset(IndexBuffer::Create(indicies, sizeof(indicies) / sizeof(uint32_t)));
+		m_IndexBuffer->Bind();
 
 		std::string vertexSrc = R"(
 			#version 330 core
@@ -75,11 +73,7 @@ namespace engine {
 			}
 		)";
 
-		m_Shader = std::make_unique<Shader>(vertexSrc, fragmentSrc);
-	}
-
-	Application::~Application()
-	{
+		m_Shader.reset(Shader::Create(vertexSrc, fragmentSrc));
 	}
 
 	void Application::PushLayer(Layer* layer)
@@ -117,7 +111,7 @@ namespace engine {
 
 			m_Shader->Bind();
 			glBindVertexArray(m_VertexArray);
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			for (auto* layer : m_LayerStack)
 				layer->OnUpdate();

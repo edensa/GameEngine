@@ -8,11 +8,9 @@
 
 #include "Engine/ImGui/ImGuiLayer.h"
 #include "Engine/Renderer/Shader.h"
+#include "Engine/Renderer/Buffer.h"
 
 namespace engine {
-
-	class VertexBuffer;
-	class IndexBuffer;
 
 	class ENGINE_API Application
 	{

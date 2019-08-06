@@ -11,10 +11,10 @@ namespace engine
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::None:
+		case RendererAPI::API::None:
 			ENGINE_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 			return nullptr;
-		case RendererAPI::OpenGL:
+		case RendererAPI::API::OpenGL:
 			return new OpenGLShader(vertexSrc, fragmentSrc);
 		default:
 			ENGINE_CORE_ASSERT(false, "unknown RendererAPI!");

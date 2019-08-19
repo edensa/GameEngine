@@ -2,6 +2,7 @@
 #include "OpenGLShader.h"
 
 #include <glad/glad.h>
+#include "glm/gtc/type_ptr.inl"
 
 namespace engine
 {
@@ -123,6 +124,14 @@ namespace engine
 	void OpenGLShader::Unbind() const
 	{
 		glUseProgram(0);
+	}
+
+	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)
+	{
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		ENGINE_CORE_ASSERT(location >= 0, "Uniform name returned invalid location.");
+		// TODO: check if location exists
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
 }

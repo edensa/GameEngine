@@ -9,17 +9,21 @@
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderCommand.h"
 
+#include <GLFW/glfw3.h>
+
 namespace engine {
 
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application()
+		: m_LastFrameTime(0.0f)
 	{
 		ENGINE_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+		m_Window->SetVSync(false);
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
@@ -54,8 +58,11 @@ namespace engine {
 	{
 		while (m_Running)
 		{
+			float time = static_cast<float>(glfwGetTime());
+			Timestep timestep = time - m_LastFrameTime;
+			m_LastFrameTime = time;
 			for (auto* layer : m_LayerStack)
-				layer->OnUpdate();
+				layer->OnUpdate(timestep);
 
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_LayerStack)

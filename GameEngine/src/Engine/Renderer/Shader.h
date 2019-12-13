@@ -16,8 +16,6 @@ namespace engine
 
 		static Shader* Create(const std::string& vertexSrc, const std::string& fragmentSrc);
 
-		virtual void UploadUniformMat4(const std::string& name, const glm::mat4& matrix) = 0;
-
 	private:
 		uint32_t m_RendererID;
 

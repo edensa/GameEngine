@@ -1,8 +1,11 @@
 #include <Engine.h>
 
+#include "Platform/OpenGL/OpenGLShader.h"
+
 #include <imgui.h>
 
 #include <glm/gtc/matrix_transform.hpp>
+#include "glm/gtc/type_ptr.inl"
 
 class ExampleLayer : public engine::Layer
 {
@@ -103,7 +106,7 @@ public:
 
 		m_Shader.reset(engine::Shader::Create(vertexSrc, fragmentSrc));
 
-		std::string blueVertexSrc = R"(
+		std::string flatColorVertexSrc = R"(
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
@@ -119,20 +122,22 @@ public:
 				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 		)";
-		std::string blueFragmentSrc = R"(
+		std::string flatColorFragmentSrc = R"(
 			#version 330 core
 			
 			layout(location = 0) out vec4 color;
 
 			in vec3 v_Position;
 
+			uniform vec3 u_Color;
+
 			void main()
 			{
-				color = vec4(0.2, 0.3, 0.8, 1.0);
+				color = vec4(u_Color, 1.0);
 			}
 		)";
 
-		m_BlueShader.reset(engine::Shader::Create(blueVertexSrc, blueFragmentSrc));
+		m_FlatColorShader.reset(engine::Shader::Create(flatColorVertexSrc, flatColorFragmentSrc));
 	}
 
 	void OnUpdate(engine::Timestep ts) override
@@ -177,16 +182,22 @@ public:
 		engine::Renderer::BeginScene(m_Camera);
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
-
+		
+		auto glShader = std::dynamic_pointer_cast<engine::OpenGLShader>(m_FlatColorShader);
+		glShader->Bind();
+		glShader->UploadUniformFloat3("u_Color", m_SquareColor);
+		
 		for (int i = 0; i < 20; ++i)
 		{
 			for (int j = 0; j < 20; ++j)
 			{
 				glm::vec3 pos(i * 0.11f, j * 0.11f, 0.0f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
-				engine::Renderer::Submit(m_BlueShader, m_SquareVA, transform);
+				
+				engine::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
 			}
 		}
+		
 		engine::Renderer::Submit(m_Shader, m_VertexArray);
 
 		engine::Renderer::EndScene();
@@ -194,8 +205,8 @@ public:
 
 	virtual void OnImGuiRender() override
 	{
-		ImGui::Begin("Test");
-		ImGui::Text("Hello World");
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
 		ImGui::End();
 	}
 
@@ -213,7 +224,7 @@ public:
 
 private:
 	std::shared_ptr<engine::Shader> m_Shader;
-	std::shared_ptr<engine::Shader> m_BlueShader;
+	std::shared_ptr<engine::Shader> m_FlatColorShader;
 	std::shared_ptr<engine::VertexArray> m_VertexArray;
 	std::shared_ptr<engine::VertexArray> m_SquareVA;
 
@@ -225,6 +236,8 @@ private:
 	
 	float m_SquareMoveSpeed = 1.0f;
 	glm::vec3 m_SquarePosition = glm::vec3(0.0f);
+	
+	glm::vec3 m_SquareColor = {0.2f, 0.3f, 0.8f};
 };
 
 class Sandbox : public engine::Application

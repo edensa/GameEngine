@@ -16,9 +16,6 @@ namespace engine
 
 		static Shader* Create(const std::string& vertexSrc, const std::string& fragmentSrc);
 
-	private:
-		uint32_t m_RendererID;
-
 	};
 
 }

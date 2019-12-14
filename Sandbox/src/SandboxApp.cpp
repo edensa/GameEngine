@@ -175,6 +175,7 @@ public:
 		m_TextureShader.reset(engine::Shader::Create(textureVertexSrc, textureFragmentSrc));
 
 		m_Texture = engine::Texture2D::Create("assets/textures/Checkerboard.png");
+		m_ChernoLogoTexture = engine::Texture2D::Create("assets/textures/ChernoLogo.png");
 		
 		std::dynamic_pointer_cast<engine::OpenGLShader>(m_TextureShader)->Bind();
 		std::dynamic_pointer_cast<engine::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
@@ -240,6 +241,8 @@ public:
 		
 		m_Texture->Bind();
 		engine::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		m_ChernoLogoTexture->Bind();
+		engine::Renderer::Submit(m_TextureShader, m_SquareVA, glm::translate(glm::mat4(1.0f), glm::vec3(0.25f, -0.25f, 0.0f)) * glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		
 		// Triangle
 		// engine::Renderer::Submit(m_Shader, m_VertexArray);
@@ -274,6 +277,7 @@ private:
 	engine::Ref<engine::VertexArray> m_SquareVA;
 	
 	engine::Ref<engine::Texture2D> m_Texture;
+	engine::Ref<engine::Texture2D> m_ChernoLogoTexture;
 
 	engine::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;

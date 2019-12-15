@@ -22,9 +22,17 @@ namespace engine
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
+
+		// Extract name from file path
+		auto last_slash = filepath.find_last_of("/\\");
+		last_slash = (last_slash == std::string::npos) ? 0 : last_slash + 1;
+		auto last_dot = filepath.rfind('.');
+		auto count = last_dot == std::string::npos ? filepath.size() - last_slash : last_dot - last_slash;
+		m_Name = filepath.substr(last_slash, count);
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
+		: m_Name(name)
 	{
 		std::unordered_map<GLenum, std::string> shaderSources;
 		shaderSources[GL_VERTEX_SHADER] = vertexSrc;
@@ -84,9 +92,10 @@ namespace engine
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
 	{
 		GLuint program = glCreateProgram();
+		ENGINE_CORE_ASSERT(shaderSources.size() == 2, "Only 2 Shaders are supported");
+		std::array<GLuint, 2> glShaderIDs {};
 
-		std::vector<GLuint> glShaderIDs;
-		glShaderIDs.reserve(shaderSources.size());
+		int glShaderIDIndex = 0;
 		
 		for (auto& kv : shaderSources)
 		{
@@ -119,7 +128,7 @@ namespace engine
 			}
 			
 			glAttachShader(program, shader);
-			glShaderIDs.push_back(shader);
+			glShaderIDs[glShaderIDIndex++] = shader;
 		}
 
 		// Link our program

@@ -7,6 +7,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "glm/gtc/type_ptr.inl"
 
+#include "Engine/Renderer/Shader.h"
+
 class ExampleLayer : public engine::Layer
 {
 public:
@@ -105,7 +107,7 @@ public:
 			}
 		)";
 
-		m_Shader.reset(engine::Shader::Create(vertexSrc, fragmentSrc));
+		m_Shader = engine::Shader::Create("VertexColorTriangle", vertexSrc, fragmentSrc);
 
 		std::string flatColorVertexSrc = R"(
 			#version 330 core
@@ -138,15 +140,15 @@ public:
 			}
 		)";
 
-		m_FlatColorShader.reset(engine::Shader::Create(flatColorVertexSrc, flatColorFragmentSrc));
+		m_FlatColorShader = engine::Shader::Create("FlatColor", flatColorVertexSrc, flatColorFragmentSrc);
 
-		m_TextureShader.reset(engine::Shader::Create("assets/shaders/Texture.glsl"));
+		auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 
 		m_Texture = engine::Texture2D::Create("assets/textures/Checkerboard.png");
 		m_ChernoLogoTexture = engine::Texture2D::Create("assets/textures/ChernoLogo.png");
 		
-		std::dynamic_pointer_cast<engine::OpenGLShader>(m_TextureShader)->Bind();
-		std::dynamic_pointer_cast<engine::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+		std::dynamic_pointer_cast<engine::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<engine::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(engine::Timestep ts) override
@@ -206,11 +208,13 @@ public:
 				engine::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
 			}
 		}
+
+		auto textureShader = m_ShaderLibrary.Get("Texture");
 		
 		m_Texture->Bind();
-		engine::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		engine::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		m_ChernoLogoTexture->Bind();
-		engine::Renderer::Submit(m_TextureShader, m_SquareVA, glm::translate(glm::mat4(1.0f), glm::vec3(0.25f, -0.25f, 0.0f)) * glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		engine::Renderer::Submit(textureShader, m_SquareVA, glm::translate(glm::mat4(1.0f), glm::vec3(0.25f, -0.25f, 0.0f)) * glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 		
 		// Triangle
 		// engine::Renderer::Submit(m_Shader, m_VertexArray);
@@ -238,9 +242,10 @@ public:
 	}
 
 private:
+	engine::ShaderLibrary m_ShaderLibrary;
 	engine::Ref<engine::Shader> m_Shader;
 	engine::Ref<engine::Shader> m_FlatColorShader;
-	engine::Ref<engine::Shader> m_TextureShader;
+	//engine::Ref<engine::Shader> m_TextureShader;
 	engine::Ref<engine::VertexArray> m_VertexArray;
 	engine::Ref<engine::VertexArray> m_SquareVA;
 	

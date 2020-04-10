@@ -5,6 +5,8 @@
 #include <imgui.h>
 
 #include <glm/gtc/matrix_transform.hpp>
+
+#include "Engine/OrthographicCameraController.h"
 #include "glm/gtc/type_ptr.inl"
 
 #include "Engine/Renderer/Shader.h"
@@ -14,8 +16,7 @@ class ExampleLayer : public engine::Layer
 public:
 	ExampleLayer()
 		: Layer("Example")
-		, m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
-		, m_CameraPosition(0.f)
+		, m_CameraController(1280.0f / 720.0f)
 	{
 		m_VertexArray.reset(engine::VertexArray::Create());
 
@@ -153,19 +154,9 @@ public:
 
 	void OnUpdate(engine::Timestep ts) override
 	{
-		if (engine::Input::IsKeyPressed(ENGINE_KEY_LEFT))
-			m_CameraPosition.x -= m_CameraMoveSpeed * ts;
-
-		else if (engine::Input::IsKeyPressed(ENGINE_KEY_RIGHT))
-			m_CameraPosition.x += m_CameraMoveSpeed * ts;
-
-		if (engine::Input::IsKeyPressed(ENGINE_KEY_UP))
-			m_CameraPosition.y += m_CameraMoveSpeed * ts;
-
-		else if (engine::Input::IsKeyPressed(ENGINE_KEY_DOWN))
-			m_CameraPosition.y -= m_CameraMoveSpeed * ts;
-
-
+		// Update
+		m_CameraController.OnUpdate(ts);
+		
 		if (engine::Input::IsKeyPressed(ENGINE_KEY_J))
 			m_SquarePosition.x -= m_SquareMoveSpeed * ts;
 
@@ -178,19 +169,11 @@ public:
 		else if (engine::Input::IsKeyPressed(ENGINE_KEY_K))
 			m_SquarePosition.y -= m_SquareMoveSpeed * ts;
 
-		else if (engine::Input::IsKeyPressed(ENGINE_KEY_A))
-			m_CameraRotation += m_CameraRotationSpeed * ts;
-
-		else if (engine::Input::IsKeyPressed(ENGINE_KEY_D))
-			m_CameraRotation -= m_CameraRotationSpeed * ts;
-
+		// Render
 		engine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		engine::RenderCommand::Clear();
 
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
-
-		engine::Renderer::BeginScene(m_Camera);
+		engine::Renderer::BeginScene(m_CameraController.GetCamera());
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 		
@@ -231,6 +214,8 @@ public:
 
 	void OnEvent(engine::Event& event) override
 	{
+		m_CameraController.OnEvent(event);
+		
 		engine::EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<engine::KeyPressedEvent>(BIND_EVENT_FN(ExampleLayer::OnKeyPressedEvent));
 		//ENGINE_TRACE("{0}", event);
@@ -252,11 +237,7 @@ private:
 	engine::Ref<engine::Texture2D> m_Texture;
 	engine::Ref<engine::Texture2D> m_ChernoLogoTexture;
 
-	engine::OrthographicCamera m_Camera;
-	glm::vec3 m_CameraPosition;
-	float m_CameraMoveSpeed = 5.0f;
-	float m_CameraRotation = 0.0f;
-	float m_CameraRotationSpeed = 180.0f;
+	engine::OrthographicCameraController m_CameraController;
 	
 	float m_SquareMoveSpeed = 1.0f;
 	glm::vec3 m_SquarePosition = glm::vec3(0.0f);

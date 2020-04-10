@@ -212,18 +212,9 @@ public:
 		ImGui::End();
 	}
 
-	void OnEvent(engine::Event& event) override
+	void OnEvent(engine::Event& e) override
 	{
-		m_CameraController.OnEvent(event);
-		
-		engine::EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<engine::KeyPressedEvent>(BIND_EVENT_FN(ExampleLayer::OnKeyPressedEvent));
-		//ENGINE_TRACE("{0}", event);
-	}
-
-	bool OnKeyPressedEvent(engine::KeyPressedEvent& event)
-	{
-		return false;
+		m_CameraController.OnEvent(e);
 	}
 
 private:

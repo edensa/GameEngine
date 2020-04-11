@@ -12,30 +12,7 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
-	m_SquareVA = engine::VertexArray::Create();
 
-	float squareVerticies[3 * 4] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.5f,  0.5f, 0.0f,
-		-0.5f,  0.5f, 0.0f,
-	};
-
-	engine::Ref<engine::VertexBuffer> squareVB;
-	squareVB.reset(engine::VertexBuffer::Create(squareVerticies, sizeof(squareVerticies)));
-
-	squareVB->SetLayout({
-		{ engine::ShaderDataType::Float3, "a_Position" },
-	});
-	m_SquareVA->AddVertexBuffer(squareVB);
-
-	unsigned squareIndicies[6] = { 0, 1, 2, 2, 3, 0 };
-	engine::Ref<engine::IndexBuffer> squareIB;
-	squareIB.reset(engine::IndexBuffer::Create(squareIndicies, sizeof(squareIndicies) / sizeof(uint32_t)));
-	m_SquareVA->SetIndexBuffer(squareIB);
-
-	//m_FlatColorShader = m_ShaderLibrary.Load("assets/shaders/FlatColorShader.glsl");
-	m_FlatColorShader = m_ShaderLibrary.Load("assets/shaders/FlatColorShader.glsl");
 }
 
 void Sandbox2D::OnDetach()
@@ -51,15 +28,10 @@ void Sandbox2D::OnUpdate(engine::Timestep ts)
 	engine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 	engine::RenderCommand::Clear();
 
-	engine::Renderer::BeginScene(m_CameraController.GetCamera());
+	engine::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-	auto glShader = std::dynamic_pointer_cast<engine::OpenGLShader>(m_FlatColorShader);
-	glShader->Bind();
-	glShader->UploadUniformFloat4("u_Color", m_SquareColor);
-
-	engine::Renderer::Submit(m_FlatColorShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-
-	engine::Renderer::EndScene();
+	engine::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+	engine::Renderer2D::EndScene();
 }
 
 void Sandbox2D::OnImGuiRender()

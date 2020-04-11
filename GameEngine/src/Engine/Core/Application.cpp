@@ -1,13 +1,13 @@
 #include "ngpch.h"
 #include "Application.h"
 
-#include "Engine/Log.h"
+#include "Engine/Core/Log.h"
 
 #include "Input.h"
-#include "Renderer/Buffer.h"
+#include "Engine/Renderer/Buffer.h"
 
-#include "Renderer/Renderer.h"
-#include "Renderer/RenderCommand.h"
+#include "Engine/Renderer/Renderer.h"
+#include "Engine/Renderer/RenderCommand.h"
 
 #include <GLFW/glfw3.h>
 

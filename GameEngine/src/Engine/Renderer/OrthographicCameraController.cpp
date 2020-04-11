@@ -1,9 +1,10 @@
 #include "ngpch.h"
 #include "OrthographicCameraController.h"
 
-#include "Events/KeyEvent.h"
-#include "Input.h"
-#include "KeyCodes.h"
+#include "Engine/Events/KeyEvent.h"
+#include "Engine/Core/Input.h"
+#include "Engine/Core/KeyCodes.h"
+#include "Engine/Core/Timestep.h"
 
 namespace engine
 {

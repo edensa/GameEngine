@@ -1,4 +1,5 @@
-#include <Engine.h>
+#include "Engine.h"
+#include "Engine/Core/EntryPoint.h"
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
@@ -10,6 +11,7 @@
 #include "glm/gtc/type_ptr.inl"
 
 #include "Engine/Renderer/Shader.h"
+#include "Sandbox2D.h"
 
 class ExampleLayer : public engine::Layer
 {
@@ -18,7 +20,7 @@ public:
 		: Layer("Example")
 		, m_CameraController(1280.0f / 720.0f)
 	{
-		m_VertexArray.reset(engine::VertexArray::Create());
+		m_VertexArray = engine::VertexArray::Create();
 
 		float verticies[7 * 3] = {
 			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
@@ -48,7 +50,7 @@ public:
 
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
-		m_SquareVA.reset(engine::VertexArray::Create());
+		m_SquareVA = engine::VertexArray::Create();
 
 		float squareVerticies[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
@@ -242,7 +244,8 @@ public:
 	Sandbox()
 		: Application()
 	{
-		PushLayer(new ExampleLayer());
+		//PushLayer(new ExampleLayer());
+		PushLayer(new Sandbox2D());
 	}
 
 	virtual ~Sandbox()

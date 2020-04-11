@@ -21,7 +21,7 @@ namespace engine {
 		ENGINE_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
-		m_Window = std::unique_ptr<Window>(Window::Create());
+		m_Window = Scope<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 		m_Window->SetVSync(false);
 
@@ -64,7 +64,6 @@ namespace engine {
 			float time = static_cast<float>(glfwGetTime());
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
-
 
 			if (!m_Minimized)
 			{

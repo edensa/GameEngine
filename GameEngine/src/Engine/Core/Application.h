@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core.h"
+#include "Engine/Core/Core.h"
 #include "Engine/Core/Window.h"
 #include "Engine/Core/LayerStack.h"
 #include "Engine/Events/Event.h"
@@ -12,11 +12,11 @@
 
 namespace engine {
 
-	class ENGINE_API Application
+	class Application
 	{
 	public:
 		Application();
-		virtual ~Application() = default;
+		virtual ~Application();
 
 		void Run();
 

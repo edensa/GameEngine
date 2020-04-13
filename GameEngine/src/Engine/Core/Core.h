@@ -44,21 +44,6 @@
 	#error "Unknown platform!"
 #endif // End of platform detection
 
-// DLL support
-#ifdef ENGINE_PLATFORM_WINDOWS
-	#if ENGINE_DYNAMIC_LINK
-		#ifdef ENGINE_BUILD_DLL
-			#define ENGINE_API __declspec(dllexport)
-		#else
-			#define ENGINE_API __declspec(dllimport)
-		#endif
-	#else
-		#define ENGINE_API
-	#endif
-#else
-	#error Engine only supports Windows!
-#endif // End of DLL support
-
 #ifdef ENGINE_DEBUG
 	#define ENGINE_ENABLE_ASSERTS
 #endif
@@ -73,7 +58,7 @@
 
 #define BIT(b) (1 << b)
 
-#define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
+#define ENGINE_BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
 namespace engine
 {

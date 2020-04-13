@@ -1,7 +1,7 @@
 #include "ngpch.h"
-#include "Texture.h"
+#include "Engine/Renderer/Texture.h"
 
-#include "Renderer.h"
+#include "Engine/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLTexture.h"
 
 namespace engine

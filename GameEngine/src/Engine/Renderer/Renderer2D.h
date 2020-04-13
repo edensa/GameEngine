@@ -1,16 +1,16 @@
 #pragma once
 
 #include "Engine/Renderer/OrthographicCamera.h"
+#include "Engine/Renderer/Texture.h"
 
 #include "glm/vec2.hpp"
 #include "glm/vec3.hpp"
 #include "glm/vec4.hpp"
-#include "Texture.h"
 
 namespace engine
 {
 
-	class ENGINE_API Renderer2D
+	class Renderer2D
 	{
 	public:
 		static void Init();

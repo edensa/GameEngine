@@ -1,5 +1,5 @@
 #include "ngpch.h"
-#include "WindowsWindow.h"
+#include "Platform/Windows/WindowsWindow.h"
 #include "Engine/Core/Log.h"
 
 #include "Engine/Events/ApplicationEvent.h"
@@ -47,7 +47,6 @@ namespace engine
 		if (s_GLFWWindowCount == 0)
 		{
 			// TODO: glfwTerminate on system shutdown
-			ENGINE_CORE_INFO("Initializing GLFW");
 			int success = glfwInit();
 			ENGINE_CORE_ASSERT(success, "Could not intialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
@@ -56,8 +55,8 @@ namespace engine
 		m_Window = glfwCreateWindow(static_cast<int>(props.Width), static_cast<int>(props.Height),
 		                            m_Data.Title.c_str(), nullptr, nullptr);
 		++s_GLFWWindowCount;
-		
-		m_Context = CreateScope<OpenGLContext>(m_Window);
+
+		m_Context = GraphicsContext::Create(m_Window);
 		
 		m_Context->Init();
 
@@ -158,11 +157,10 @@ namespace engine
 	void WindowsWindow::Shutdown()
 	{
 		glfwDestroyWindow(m_Window);
-		s_GLFWWindowCount--;
+		--s_GLFWWindowCount;
 
 		if (s_GLFWWindowCount == 0)
 		{
-			ENGINE_CORE_INFO("Terminating GLFW");
 			glfwTerminate();
 		}
 	}

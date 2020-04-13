@@ -1,5 +1,5 @@
 #include "ngpch.h"
-#include "OpenGLShader.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 
 #include <glad/glad.h>
 #include "glm/gtc/type_ptr.inl"

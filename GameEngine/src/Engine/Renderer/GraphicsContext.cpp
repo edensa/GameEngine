@@ -1,14 +1,13 @@
 #include "ngpch.h"
-#include "Engine/Renderer/RendererAPI.h"
+#include "Engine/Renderer/GraphicsContext.h"
 
 #include "Engine/Renderer/Renderer.h"
-#include "Platform/OpenGL/OpenGLRendererAPI.h"
+#include "Platform/OpenGL/OpenGLContext.h"
+#include "Platform/Windows/WindowsWindow.h"
 
 namespace engine
 {
-	RendererAPI::API RendererAPI::s_API = RendererAPI::API::OpenGL;
-
-	Scope<RendererAPI> RendererAPI::Create()
+	Scope<GraphicsContext> GraphicsContext::Create(void* window)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -16,11 +15,10 @@ namespace engine
 			ENGINE_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return CreateScope<OpenGLRendererAPI>();
+			return CreateScope<OpenGLContext>(static_cast<GLFWwindow*>(window));
 		default:
 			ENGINE_CORE_ASSERT(false, "unknown RendererAPI!");
 			return nullptr;
 		}
 	}
-	
 }

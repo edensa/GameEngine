@@ -1,5 +1,5 @@
 #include "ngpch.h"
-#include "OrthographicCameraController.h"
+#include "Engine/Renderer/OrthographicCameraController.h"
 
 #include "Engine/Events/KeyEvent.h"
 #include "Engine/Core/Input.h"
@@ -63,8 +63,8 @@ namespace engine
 	void OrthographicCameraController::OnEvent(Event& e)
 	{
 		engine::EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<engine::MouseScrolledEvent>(BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolled));
-		dispatcher.Dispatch<engine::WindowResizeEvent>(BIND_EVENT_FN(OrthographicCameraController::OnWindowResize));
+		dispatcher.Dispatch<engine::MouseScrolledEvent>(ENGINE_BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolled));
+		dispatcher.Dispatch<engine::WindowResizeEvent>(ENGINE_BIND_EVENT_FN(OrthographicCameraController::OnWindowResize));
 	}
 
 	OrthographicCamera& OrthographicCameraController::GetCamera()

@@ -1,8 +1,7 @@
 #include "Sandbox2D.h"
-#include "imgui.h"
+#include <imgui.h>
 
 #include "glm/gtc/type_ptr.hpp"
-#include "Platform/OpenGL/OpenGLShader.h"
 
 Sandbox2D::Sandbox2D()
 	: Layer("Sandbox2D")

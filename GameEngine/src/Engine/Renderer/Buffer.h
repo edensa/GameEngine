@@ -121,7 +121,7 @@ namespace engine
 		virtual const BufferLayout& GetLayout() const = 0;
 		virtual void SetLayout(const BufferLayout& layout) = 0;
 
-		static VertexBuffer* Create(float* verticies, uint32_t size);
+		static Ref<VertexBuffer> Create(float* verticies, uint32_t size);
 
 	};
 
@@ -135,7 +135,7 @@ namespace engine
 
 		virtual uint32_t GetCount() const = 0;
 
-		static IndexBuffer* Create(uint32_t* indicies, uint32_t size);
+		static Ref<IndexBuffer> Create(uint32_t* indicies, uint32_t size);
 		
 	};
 

@@ -7,7 +7,7 @@
 namespace engine
 {
 	
-	class ENGINE_API Layer
+	class Layer
 	{
 	public:
 		Layer(std::string debugName = "Layer");

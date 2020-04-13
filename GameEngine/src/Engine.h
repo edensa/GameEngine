@@ -2,6 +2,8 @@
 
 // For use by Engine applications
 
+#include "Engine/Core/Core.h"
+
 #include "Engine/Core/Application.h"
 #include "Engine/Core/Layer.h"
 #include "Engine/Core/Log.h"

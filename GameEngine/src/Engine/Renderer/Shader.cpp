@@ -1,8 +1,8 @@
 #include "ngpch.h"
-#include "Shader.h"
+#include "Engine/Renderer/Shader.h"
 
 #include <glad/glad.h>
-#include "Renderer.h"
+#include "Engine/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 
 namespace engine
@@ -16,7 +16,7 @@ namespace engine
 			ENGINE_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return std::make_shared<OpenGLShader>(filepath);
+			return CreateRef<OpenGLShader>(filepath);
 		default:
 			ENGINE_CORE_ASSERT(false, "unknown RendererAPI!");
 			return nullptr;
@@ -31,7 +31,7 @@ namespace engine
 			ENGINE_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
+			return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
 		default:
 			ENGINE_CORE_ASSERT(false, "unknown RendererAPI!");
 			return nullptr;

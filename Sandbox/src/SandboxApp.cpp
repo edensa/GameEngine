@@ -1,8 +1,6 @@
 #include "Engine.h"
 #include "Engine/Core/EntryPoint.h"
 
-#include "Platform/OpenGL/OpenGLShader.h"
-
 #include <imgui.h>
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -28,8 +26,7 @@ public:
 			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f,
 		};
 
-		engine::Ref<engine::VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(engine::VertexBuffer::Create(verticies, sizeof(verticies)));
+		engine::Ref<engine::VertexBuffer> vertexBuffer = engine::VertexBuffer::Create(verticies, sizeof(verticies));
 
 		{
 			engine::BufferLayout layout = {
@@ -45,8 +42,7 @@ public:
 			0, 1, 2
 		};
 
-		engine::Ref<engine::IndexBuffer> indexBuffer;
-		indexBuffer.reset(engine::IndexBuffer::Create(indicies, sizeof(indicies) / sizeof(uint32_t)));
+		engine::Ref<engine::IndexBuffer> indexBuffer = engine::IndexBuffer::Create(indicies, sizeof(indicies) / sizeof(uint32_t));
 
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
@@ -59,8 +55,7 @@ public:
 			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
 		};
 
-		engine::Ref<engine::VertexBuffer> squareVB;
-		squareVB.reset(engine::VertexBuffer::Create(squareVerticies, sizeof(squareVerticies)));
+		engine::Ref<engine::VertexBuffer> squareVB = engine::VertexBuffer::Create(squareVerticies, sizeof(squareVerticies));
 
 		squareVB->SetLayout({
 			{ engine::ShaderDataType::Float3, "a_Position" },
@@ -72,8 +67,7 @@ public:
 			0, 1, 2, 2, 3, 0
 		};
 
-		engine::Ref<engine::IndexBuffer> squareIB;
-		squareIB.reset(engine::IndexBuffer::Create(squareIndicies, sizeof(squareIndicies) / sizeof(uint32_t)));
+		engine::Ref<engine::IndexBuffer> squareIB = engine::IndexBuffer::Create(squareIndicies, sizeof(squareIndicies) / sizeof(uint32_t));
 
 		m_SquareVA->SetIndexBuffer(squareIB);
 
@@ -150,8 +144,8 @@ public:
 		m_Texture = engine::Texture2D::Create("assets/textures/Checkerboard.png");
 		m_ChernoLogoTexture = engine::Texture2D::Create("assets/textures/ChernoLogo.png");
 		
-		std::dynamic_pointer_cast<engine::OpenGLShader>(textureShader)->Bind();
-		std::dynamic_pointer_cast<engine::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
+		textureShader->Bind();
+		textureShader->SetInt("u_Texture", 0);
 	}
 
 	void OnUpdate(engine::Timestep ts) override
@@ -179,9 +173,8 @@ public:
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 		
-		auto glShader = std::dynamic_pointer_cast<engine::OpenGLShader>(m_FlatColorShader);
-		glShader->Bind();
-		glShader->UploadUniformFloat3("u_Color", m_SquareColor);
+		m_FlatColorShader->Bind();
+		m_FlatColorShader->SetFloat3("u_Color", m_SquareColor);
 		
 		for (int i = 0; i < 20; ++i)
 		{

@@ -1,14 +1,14 @@
 #include "ngpch.h"
-#include "Buffer.h"
+#include "Engine/Renderer/Buffer.h"
 
-#include "Renderer.h"
+#include "Engine/Renderer/Renderer.h"
 
 #include "Platform/OpenGL/OpenGLBuffer.h"
 
 namespace engine
 {
 
-	VertexBuffer* VertexBuffer::Create(float* verticies, uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::Create(float* verticies, uint32_t size)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -16,14 +16,14 @@ namespace engine
 			ENGINE_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return new OpenGLVertexBuffer(verticies, size);
+			return CreateRef<OpenGLVertexBuffer>(verticies, size);
 		default:
 			ENGINE_CORE_ASSERT(false, "unknown RendererAPI!");
 			return nullptr;
 		}
 	}	
 
-	IndexBuffer* IndexBuffer::Create(uint32_t* indicies, uint32_t size)
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indicies, uint32_t size)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -31,7 +31,7 @@ namespace engine
 			ENGINE_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return new OpenGLIndexBuffer(indicies, size);
+			return CreateRef<OpenGLIndexBuffer>(indicies, size);
 		default:
 			ENGINE_CORE_ASSERT(false, "unknown RendererAPI!");
 			return nullptr;

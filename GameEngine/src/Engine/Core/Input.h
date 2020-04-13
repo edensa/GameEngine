@@ -5,7 +5,7 @@
 namespace engine
 {
 	
-	class ENGINE_API Input
+	class Input
 	{
 	protected:
 		Input() = default;

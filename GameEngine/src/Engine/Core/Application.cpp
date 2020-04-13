@@ -1,9 +1,9 @@
 #include "ngpch.h"
-#include "Application.h"
+#include "Engine/Core/Application.h"
 
 #include "Engine/Core/Log.h"
 
-#include "Input.h"
+#include "Engine/Core/Input.h"
 #include "Engine/Renderer/Buffer.h"
 
 #include "Engine/Renderer/Renderer.h"
@@ -21,14 +21,19 @@ namespace engine {
 		ENGINE_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
-		m_Window = Scope<Window>(Window::Create());
-		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+		m_Window = Window::Create();
+		m_Window->SetEventCallback(ENGINE_BIND_EVENT_FN(Application::OnEvent));
 		m_Window->SetVSync(false);
 
 		Renderer::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
+	}
+
+	Application::~Application()
+	{
+		Renderer::Shutdown();
 	}
 
 	void Application::PushLayer(Layer* layer)
@@ -44,8 +49,8 @@ namespace engine {
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
-		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(Application::OnWindowResize));
+		dispatcher.Dispatch<WindowCloseEvent>(ENGINE_BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(ENGINE_BIND_EVENT_FN(Application::OnWindowResize));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{

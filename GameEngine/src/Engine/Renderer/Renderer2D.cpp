@@ -23,7 +23,7 @@ namespace engine
 	{
 		s_Data = CreateScope<Renderer2DStorage>();
 		
-		s_Data->QuadVertexArray = engine::VertexArray::Create();
+		s_Data->QuadVertexArray = VertexArray::Create();
 
 		float squareVerticies[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
@@ -32,18 +32,16 @@ namespace engine
 			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
-		engine::Ref<engine::VertexBuffer> squareVB;
-		squareVB.reset(engine::VertexBuffer::Create(squareVerticies, sizeof(squareVerticies)));
+		Ref<VertexBuffer> squareVB = VertexBuffer::Create(squareVerticies, sizeof(squareVerticies));
 
 		squareVB->SetLayout({
-			{ engine::ShaderDataType::Float3, "a_Position" },
-			{ engine::ShaderDataType::Float2, "a_TextCoord" },
+			{ ShaderDataType::Float3, "a_Position" },
+			{ ShaderDataType::Float2, "a_TextCoord" },
 			});
 		s_Data->QuadVertexArray->AddVertexBuffer(squareVB);
 
 		unsigned squareIndicies[6] = { 0, 1, 2, 2, 3, 0 };
-		engine::Ref<engine::IndexBuffer> squareIB;
-		squareIB.reset(engine::IndexBuffer::Create(squareIndicies, sizeof(squareIndicies) / sizeof(uint32_t)));
+		Ref<IndexBuffer> squareIB = IndexBuffer::Create(squareIndicies, sizeof(squareIndicies) / sizeof(uint32_t));
 		s_Data->QuadVertexArray->SetIndexBuffer(squareIB);
 
 		s_Data->WhiteTexture = Texture2D::Create(1, 1);

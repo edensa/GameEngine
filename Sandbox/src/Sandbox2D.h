@@ -16,13 +16,21 @@ public:
 	virtual void OnEvent(engine::Event& e) override;
 
 private:
+	engine::OrthographicCameraController m_CameraController;
+
 	// Temp
-	engine::ShaderLibrary m_ShaderLibrary;
 	engine::Ref<engine::VertexArray> m_SquareVA;
 	engine::Ref<engine::Shader> m_FlatColorShader;
-	engine::OrthographicCameraController m_CameraController;
+	
 	engine::Ref<engine::Texture2D> m_CheckerboardTexture;
-	engine::Ref<engine::Texture2D> m_ChernoLogoTexture;
+
+	struct ProfileResult
+	{
+		const char* Name;
+		float Time;
+	};
+
+	std::vector<ProfileResult> m_ProfileResults;
 	
 	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 };

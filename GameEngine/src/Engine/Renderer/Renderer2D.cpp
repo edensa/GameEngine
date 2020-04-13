@@ -1,10 +1,11 @@
 #include "ngpch.h"
 #include "Renderer2D.h"
 
-#include "Platform/OpenGL/OpenGLShader.h"
 #include "RenderCommand.h"
 #include "Shader.h"
 #include "VertexArray.h"
+
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace engine
 {
@@ -13,6 +14,7 @@ namespace engine
 	{
 		Ref<VertexArray> QuadVertexArray;
 		Ref<Shader> FlatColorShader;
+		Ref<Shader> TextureShader;
 	};
 
 	static Scope<Renderer2DStorage> s_Data;
@@ -23,11 +25,11 @@ namespace engine
 		
 		s_Data->QuadVertexArray = engine::VertexArray::Create();
 
-		float squareVerticies[3 * 4] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f,
+		float squareVerticies[5 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
 
 		engine::Ref<engine::VertexBuffer> squareVB;
@@ -35,6 +37,7 @@ namespace engine
 
 		squareVB->SetLayout({
 			{ engine::ShaderDataType::Float3, "a_Position" },
+			{ engine::ShaderDataType::Float2, "a_TextCoord" },
 			});
 		s_Data->QuadVertexArray->AddVertexBuffer(squareVB);
 
@@ -44,6 +47,9 @@ namespace engine
 		s_Data->QuadVertexArray->SetIndexBuffer(squareIB);
 
 		s_Data->FlatColorShader = Shader::Create("assets/shaders/FlatColorShader.glsl");
+		s_Data->TextureShader = Shader::Create("assets/shaders/Texture.glsl");
+		s_Data->TextureShader->Bind();
+		s_Data->TextureShader->SetInt("u_Texture", 0);
 	}
 
 	void Renderer2D::Shutdown()
@@ -53,10 +59,11 @@ namespace engine
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
-		auto glShader = std::dynamic_pointer_cast<engine::OpenGLShader>(s_Data->FlatColorShader);
-		glShader->Bind();
-		glShader->UploadUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
-		glShader->UploadUniformMat4("u_Transform", glm::mat4(1.0f));
+		s_Data->FlatColorShader->Bind();
+		s_Data->FlatColorShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+		
+		s_Data->TextureShader->Bind();
+		s_Data->TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 	}
 
 	void Renderer2D::EndScene()
@@ -70,9 +77,29 @@ namespace engine
 	
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
-		auto glShader = std::dynamic_pointer_cast<engine::OpenGLShader>(s_Data->FlatColorShader);
-		glShader->Bind();
-		glShader->UploadUniformFloat4("u_Color", color);
+		s_Data->FlatColorShader->Bind();
+		s_Data->FlatColorShader->SetFloat4("u_Color", color);
+
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		s_Data->FlatColorShader->SetMat4("u_Transform", transform);
+
+		s_Data->QuadVertexArray->Bind();
+		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture)
+	{
+		DrawQuad({ position.x, position.y, 0 }, size, texture);
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture)
+	{
+		texture->Bind();
+
+		s_Data->TextureShader->Bind();
+
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		s_Data->TextureShader->SetMat4("u_Transform", transform);
 
 		s_Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);

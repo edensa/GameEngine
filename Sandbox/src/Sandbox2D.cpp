@@ -12,7 +12,8 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
-
+	m_CheckerboardTexture = engine::Texture2D::Create("assets/textures/Checkerboard.png");
+	m_ChernoLogoTexture = engine::Texture2D::Create("assets/textures/ChernoLogo.png");
 }
 
 void Sandbox2D::OnDetach()
@@ -30,7 +31,9 @@ void Sandbox2D::OnUpdate(engine::Timestep ts)
 
 	engine::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-	engine::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+	engine::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+	engine::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
+	engine::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, m_CheckerboardTexture);
 	engine::Renderer2D::EndScene();
 }
 

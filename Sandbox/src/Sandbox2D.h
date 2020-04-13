@@ -21,6 +21,8 @@ private:
 	engine::Ref<engine::VertexArray> m_SquareVA;
 	engine::Ref<engine::Shader> m_FlatColorShader;
 	engine::OrthographicCameraController m_CameraController;
+	engine::Ref<engine::Texture2D> m_CheckerboardTexture;
+	engine::Ref<engine::Texture2D> m_ChernoLogoTexture;
 	
 	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 };

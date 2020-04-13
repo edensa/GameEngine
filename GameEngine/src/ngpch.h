@@ -16,6 +16,8 @@
 
 #include "Engine/Core/Log.h"
 
+#include "Engine/Debug/Instrumentor.h"
+
 #ifdef ENGINE_PLATFORM_WINDOWS
 #include <Windows.h>
 #endif 

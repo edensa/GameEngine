@@ -77,7 +77,8 @@ project "GameEngine"
 		defines
 		{
 			"ENGINE_BUILD_DLL",
-			"GLFW_INCLUDE_NONE"
+			"GLFW_INCLUDE_NONE",
+			"ENGINE_PROFILE"
 		}
 
 	filter "configurations:Debug"
@@ -126,6 +127,11 @@ project "Sandbox"
 
 	filter "system:windows"
 		systemversion "latest"
+
+		defines
+		{
+			"ENGINE_PROFILE"
+		}
 
 	filter "configurations:Debug"
 		defines { "ENGINE_DEBUG" }

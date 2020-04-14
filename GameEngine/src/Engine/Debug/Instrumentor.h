@@ -112,8 +112,8 @@ namespace engine
 			long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
 			long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
 
-			uint32_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
-			Instrumentor::Get().WriteProfile({ m_Name, start, end, threadID });
+			//uint32_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
+			Instrumentor::Get().WriteProfile({ m_Name, start, end, 0 });
 
 			m_Stopped = true;
 		}
@@ -128,11 +128,11 @@ namespace engine
 #if ENGINE_PROFILE
 #define ENGINE_PROFILE_BEGIN_SESSION(name, filepath)		::engine::Instrumentor::Get().BeginSession(name, filepath)
 #define ENGINE_PROFILE_END_SESSION()						::engine::Instrumentor::Get().EndSession()
-#define ENGINE_PROFILE_SCOPE(name)							::engine::InstrumentationTimer timer##__LINE__(name);
-#define ENGINE_PROFILE_FUNCTION(name)						ENGINE_PROFILE_SCOPE(__FUNCSIG__)
+#define ENGINE_PROFILE_SCOPE(name)							::engine::InstrumentationTimer timer##__LINE__(name)
+#define ENGINE_PROFILE_FUNCTION()							ENGINE_PROFILE_SCOPE(__FUNCSIG__)
 #else
 #define ENGINE_PROFILE_BEGIN_SESSION(name, filepath)
 #define ENGINE_PROFILE_END_SESSION()
-#define ENGINE_PROFILE_FUNCTION()
 #define ENGINE_PROFILE_SCOPE(name)
+#define ENGINE_PROFILE_FUNCTION()
 #endif // !ENGINE_PROFILE

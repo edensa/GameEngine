@@ -10,10 +10,13 @@ Sandbox2D::Sandbox2D()
 	: Layer("Sandbox2D")
 	, m_CameraController(1280.0f / 720.0f)
 {
+	ENGINE_PROFILE_FUNCTION();
 }
 
 void Sandbox2D::OnAttach()
 {
+	ENGINE_PROFILE_FUNCTION();
+	
 	m_CheckerboardTexture = engine::Texture2D::Create("assets/textures/Checkerboard.png");
 }
 

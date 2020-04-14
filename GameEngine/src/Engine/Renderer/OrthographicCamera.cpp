@@ -11,17 +11,23 @@ namespace engine
 		, m_Position(0.0f)
 		, m_Rotation(0.0f)
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
 	}
 
 	void OrthographicCamera::SetProjection(float left, float right, float bottom, float top)
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		m_ProjectionMatrix = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
 		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
 	}
 
 	void OrthographicCamera::RecalculateViewMatrix()
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		glm::mat4 iden{ 1.0f };
 		glm::vec3 posz{ 0, 0, 1 };
 		glm::mat4 transform = glm::translate(iden, m_Position) * glm::rotate(iden, glm::radians(m_Rotation), posz);

@@ -28,16 +28,22 @@ namespace engine
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 		: m_Data()
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		Shutdown();
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
@@ -46,14 +52,18 @@ namespace engine
 
 		if (s_GLFWWindowCount == 0)
 		{
-			// TODO: glfwTerminate on system shutdown
+			ENGINE_PROFILE_SCOPE("glfwInit");
 			int success = glfwInit();
 			ENGINE_CORE_ASSERT(success, "Could not intialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
 		}
-
-		m_Window = glfwCreateWindow(static_cast<int>(props.Width), static_cast<int>(props.Height),
-		                            m_Data.Title.c_str(), nullptr, nullptr);
+		
+		{
+			ENGINE_PROFILE_SCOPE("glfwCreateWindow");
+			m_Window = glfwCreateWindow(static_cast<int>(props.Width), static_cast<int>(props.Height),
+				m_Data.Title.c_str(), nullptr, nullptr);
+		}
+		
 		++s_GLFWWindowCount;
 
 		m_Context = GraphicsContext::Create(m_Window);
@@ -156,6 +166,7 @@ namespace engine
 
 	void WindowsWindow::Shutdown()
 	{
+		ENGINE_PROFILE_FUNCTION();
 		glfwDestroyWindow(m_Window);
 		--s_GLFWWindowCount;
 
@@ -167,12 +178,15 @@ namespace engine
 
 	void WindowsWindow::OnUpdate()
 	{
+		ENGINE_PROFILE_FUNCTION();
 		glfwPollEvents();
 		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		if (enabled)
 		{
 			glfwSwapInterval(1);

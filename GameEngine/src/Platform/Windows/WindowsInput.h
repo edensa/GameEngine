@@ -8,8 +8,8 @@ namespace engine
 	class WindowsInput : public Input
 	{
 	protected:
-		virtual bool IsKeyPressedImpl(int keycode) override;
-		bool IsMouseButtonPressedImpl(int button) override;
+		virtual bool IsKeyPressedImpl(KeyCode keycode) override;
+		bool IsMouseButtonPressedImpl(MouseCode button) override;
 		std::pair<float, float> GetMousePositionImpl() override;
 		float GetMouseXImpl() override;
 		float GetMouseYImpl() override;

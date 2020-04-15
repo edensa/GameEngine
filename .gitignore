@@ -1,10 +1,16 @@
-.vs/*
+# Binaries
 **/bin/*
 **/bin-int/*
+
+# Engine files
+*.log
+Sandbox/imgui.ini
+Sandbox/*.json
+
+# Visual Studio files and folder
+.vs/*
 *.sln
 *.DotSettings.user
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
-Sandbox/imgui.ini
-Sandbox/*.json

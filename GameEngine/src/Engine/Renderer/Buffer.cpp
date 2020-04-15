@@ -7,6 +7,20 @@
 
 namespace engine
 {
+	Ref<VertexBuffer> VertexBuffer::Create(uint32_t size)
+	{
+		switch (Renderer::GetAPI())
+		{
+		case RendererAPI::API::None:
+			ENGINE_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
+			return nullptr;
+		case RendererAPI::API::OpenGL:
+			return CreateRef<OpenGLVertexBuffer>(size);
+		default:
+			ENGINE_CORE_ASSERT(false, "unknown RendererAPI!");
+			return nullptr;
+		}
+	}
 
 	Ref<VertexBuffer> VertexBuffer::Create(float* verticies, uint32_t size)
 	{
@@ -23,7 +37,7 @@ namespace engine
 		}
 	}	
 
-	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indicies, uint32_t size)
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indicies, uint32_t count)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -31,7 +45,7 @@ namespace engine
 			ENGINE_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return CreateRef<OpenGLIndexBuffer>(indicies, size);
+			return CreateRef<OpenGLIndexBuffer>(indicies, count);
 		default:
 			ENGINE_CORE_ASSERT(false, "unknown RendererAPI!");
 			return nullptr;

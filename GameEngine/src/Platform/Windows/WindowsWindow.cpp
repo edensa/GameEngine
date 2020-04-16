@@ -21,11 +21,6 @@ namespace engine
 	static bool s_GLFWInitialized = false;
 	static uint8_t s_GLFWWindowCount = 0;
 
-	Scope<Window> Window::Create(const WindowProps& props)
-	{
-		return CreateScope<WindowsWindow>(props);
-	}
-
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 		: m_Data()
 	{

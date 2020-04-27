@@ -93,4 +93,9 @@ namespace engine
 
 		glBindTextureUnit(slot, m_RendererID);
 	}
+
+	bool OpenGLTexture2D::operator==(const Texture& other) const
+	{
+		return m_RendererID == dynamic_cast<const OpenGLTexture2D*>(&other)->m_RendererID;
+	}
 }

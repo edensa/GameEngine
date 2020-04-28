@@ -50,7 +50,7 @@ namespace engine
 		{
 			ENGINE_PROFILE_SCOPE("glfwInit");
 			int success = glfwInit();
-			ENGINE_CORE_ASSERT(success, "Could not intialize GLFW!");
+			ENGINE_CORE_ASSERT(success, "Could not initialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
 		}
 		

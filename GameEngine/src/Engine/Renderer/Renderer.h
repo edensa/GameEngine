@@ -23,7 +23,7 @@ namespace engine
 		static void Submit();
 
 
-		static inline RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
+		static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
 	private:
 		struct SceneData

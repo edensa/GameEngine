@@ -17,8 +17,8 @@ namespace engine
 		
 		virtual void SetData(const void* data, uint32_t size) override;
 
-		inline virtual const BufferLayout& GetLayout() const { return m_Layout; };
-		inline virtual void SetLayout(const BufferLayout& layout) { m_Layout = layout; };
+		virtual const BufferLayout& GetLayout() const { return m_Layout; };
+		virtual void SetLayout(const BufferLayout& layout) { m_Layout = layout; };
 		
 	private:
 		uint32_t m_RendererID;

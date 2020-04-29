@@ -18,18 +18,17 @@ namespace engine
 		switch (severity)
 		{
 		case GL_DEBUG_SEVERITY_HIGH:         ENGINE_CORE_CRITICAL(message); return;
-		case GL_DEBUG_SEVERITY_MEDIUM:       ENGINE_CORE_CRITICAL(message); return;
-		case GL_DEBUG_SEVERITY_LOW:          ENGINE_CORE_CRITICAL(message); return;
-		case GL_DEBUG_SEVERITY_NOTIFICATION: ENGINE_CORE_CRITICAL(message); return;
+		case GL_DEBUG_SEVERITY_MEDIUM:       ENGINE_CORE_ERROR(message); return;
+		case GL_DEBUG_SEVERITY_LOW:          ENGINE_CORE_WARN(message); return;
+		case GL_DEBUG_SEVERITY_NOTIFICATION: ENGINE_CORE_TRACE(message); return;
 		}
 
-		ENGINE_CORE_CRITICAL(false, "Unknown severity level!");
+		ENGINE_CORE_ASSERT(false, "Unknown severity level!");
 	}
 	
 	void OpenGLRendererAPI::Init()
 	{
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		ENGINE_PROFILE_FUNCTION();
 
 #ifdef ENGINE_DEBUG
 		glEnable(GL_DEBUG_OUTPUT);
@@ -38,6 +37,9 @@ namespace engine
 
 		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
 #endif
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
 		glEnable(GL_DEPTH_TEST);
 	}
@@ -59,8 +61,11 @@ namespace engine
 
 	void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount/* = 0*/)
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		uint32_t count = (indexCount == 0) ? vertexArray->GetIndexBuffer()->GetCount() : indexCount;
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
 }

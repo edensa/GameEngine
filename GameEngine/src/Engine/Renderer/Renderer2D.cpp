@@ -221,11 +221,11 @@ namespace engine
 		if (textureIndex == 0.0f)
 		{
 			// TODO: flush if max texture slots reached
-			if (s_Data.TextureSlotIndex == s_Data.MaxTextureSlots)
-			{
-				throw std::runtime_error("max texture slots reached :(");
-			}
+			if (s_Data.TextureSlotIndex >= s_Data.MaxTextureSlots)
+				FlushAndReset();
+			
 			textureIndex = (float)s_Data.TextureSlotIndex;
+			ENGINE_CORE_ASSERT(s_Data.TextureSlotIndex < s_Data.MaxTextureSlots, "Texture slot index overflow!");
 			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
 			s_Data.TextureSlotIndex++;
 		}
@@ -318,11 +318,11 @@ namespace engine
 		if (textureIndex == 0.0f)
 		{
 			// TODO: flush if max texture slots reached
-			if (s_Data.TextureSlotIndex == s_Data.MaxTextureSlots)
-			{
-				throw std::runtime_error("max texture slots reached :(");
-			}
+			if (s_Data.TextureSlotIndex >= s_Data.MaxTextureSlots)
+				FlushAndReset();
+			
 			textureIndex = (float)s_Data.TextureSlotIndex;
+			ENGINE_CORE_ASSERT(s_Data.TextureSlotIndex < s_Data.MaxTextureSlots, "Texture slot index overflow!");
 			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
 			s_Data.TextureSlotIndex++;
 		}

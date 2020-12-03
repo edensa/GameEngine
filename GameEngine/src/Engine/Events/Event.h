@@ -2,7 +2,7 @@
 
 #include "ngpch.h"
 
-#include "Engine/Core/Core.h"
+#include "Engine/Core/Base.h"
 
 namespace engine
 {

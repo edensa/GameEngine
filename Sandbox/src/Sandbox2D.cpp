@@ -74,6 +74,13 @@ void Sandbox2D::OnUpdate(engine::Timestep ts)
 void Sandbox2D::OnImGuiRender()
 {
 	ENGINE_PROFILE_FUNCTION();
+
+	static bool dockingEnabled = true;
+	if (dockingEnabled)
+	{
+		ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+	}
+	
 	ImGui::Begin("Settings");
 
 	auto stats = engine::Renderer2D::GetStats();
@@ -85,6 +92,10 @@ void Sandbox2D::OnImGuiRender()
 	ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 	
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+
+	uint32_t textureID = m_CheckerboardTexture->GetRendererID();
+	ImGui::Image((void*)textureID, ImVec2{256.0f, 256.0f});
+	
 	ImGui::End();
 }
 

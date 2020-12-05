@@ -16,8 +16,13 @@ Sandbox2D::Sandbox2D()
 void Sandbox2D::OnAttach()
 {
 	ENGINE_PROFILE_FUNCTION();
-	
+
 	m_CheckerboardTexture = engine::Texture2D::Create("assets/textures/Checkerboard.png");
+
+	engine::FramebufferSpecification fbSpec;
+	fbSpec.width = 1280;
+	fbSpec.height = 720;
+	m_Framebuffer = engine::Framebuffer::Create(fbSpec);
 }
 
 void Sandbox2D::OnDetach()
@@ -38,6 +43,7 @@ void Sandbox2D::OnUpdate(engine::Timestep ts)
 	// Render
 	{
 		ENGINE_PROFILE_SCOPE("Renderer Prep");
+		m_Framebuffer->Bind();
 		engine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		engine::RenderCommand::Clear();
 	}
@@ -68,6 +74,7 @@ void Sandbox2D::OnUpdate(engine::Timestep ts)
 			}
 		}
 		engine::Renderer2D::EndScene();
+		m_Framebuffer->Unbind();
 	}
 }
 
@@ -93,8 +100,8 @@ void Sandbox2D::OnImGuiRender()
 	
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
 
-	uint32_t textureID = m_CheckerboardTexture->GetRendererID();
-	ImGui::Image((void*)textureID, ImVec2{256.0f, 256.0f});
+	uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+	ImGui::Image((void*)textureID, ImVec2{1280.0f, 720.0f});
 	
 	ImGui::End();
 }

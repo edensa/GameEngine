@@ -113,8 +113,6 @@ void EditorLayer::OnImGuiRender()
 		m_CameraController.OnResize(m_ViewportPanelSize.x, m_ViewportPanelSize.y);
 	}
 	
-	ENGINE_WARN("Viewport Size: {0}, {1}", viewportPanelSize.x, viewportPanelSize.y);
-	
 	uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 	ImGui::Image((void*)textureID, ImVec2{ viewportPanelSize.x, viewportPanelSize.y}, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 	ImGui::PopStyleVar();

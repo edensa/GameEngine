@@ -31,6 +31,15 @@ void EditorLayer::OnDetach()
 void EditorLayer::OnUpdate(engine::Timestep ts)
 {
 	ENGINE_PROFILE_FUNCTION();
+
+	// Resize
+	if (engine::FramebufferSpecification spec = m_Framebuffer->GetSpecification();
+		m_ViewportSize.x > 0 && m_ViewportSize.y > 0 && //zero sized framebuffer is invalid
+		(spec.width != m_ViewportSize.x || spec.height != m_ViewportSize.y))
+	{
+		m_Framebuffer->Resize(m_ViewportSize.x, m_ViewportSize.y);
+		m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+	}
 	
 	// Update
 	if (m_ViewportFocused)
@@ -104,14 +113,7 @@ void EditorLayer::OnImGuiRender()
 	m_ViewportHovered = ImGui::IsWindowHovered();
 	engine::Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
 	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-	glm::uvec2 viewportPanelSizeI = { (uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y };
-	if (m_ViewportPanelSize != viewportPanelSizeI)
-	{
-		m_ViewportPanelSize = viewportPanelSizeI;
-		m_Framebuffer->Resize(m_ViewportPanelSize.x, m_ViewportPanelSize.y);
-
-		m_CameraController.OnResize(m_ViewportPanelSize.x, m_ViewportPanelSize.y);
-	}
+	m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 	
 	uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 	ImGui::Image((void*)textureID, ImVec2{ viewportPanelSize.x, viewportPanelSize.y}, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });

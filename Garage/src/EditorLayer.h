@@ -27,7 +27,7 @@ private:
 
 	bool m_ViewportFocused = false;
 	bool m_ViewportHovered = false;
-	glm::uvec2 m_ViewportPanelSize = {0, 0};
+	glm::uvec2 m_ViewportSize = {0, 0};
 
 	struct ProfileResult
 	{

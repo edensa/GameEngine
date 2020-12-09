@@ -2,11 +2,11 @@
 
 #include "Engine.h"
 
-class Sandbox2D : public engine::Layer
+class EditorLayer : public engine::Layer
 {
 public:
-	Sandbox2D();
-	virtual ~Sandbox2D() = default;
+	EditorLayer();
+	virtual ~EditorLayer() = default;
 	
 	virtual void OnAttach() override;
 	virtual void OnDetach() override;
@@ -21,6 +21,7 @@ private:
 	// Temp
 	engine::Ref<engine::VertexArray> m_SquareVA;
 	engine::Ref<engine::Shader> m_FlatColorShader;
+	engine::Ref<engine::Framebuffer> m_Framebuffer;
 	
 	engine::Ref<engine::Texture2D> m_CheckerboardTexture;
 

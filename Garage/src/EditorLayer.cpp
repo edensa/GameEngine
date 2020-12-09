@@ -1,29 +1,34 @@
-#include "Sandbox2D.h"
+#include "EditorLayer.h"
 #include <imgui.h>
 
 #include "glm/gtc/type_ptr.hpp"
 
 #include <chrono>
 
-Sandbox2D::Sandbox2D()
-	: Layer("Sandbox2D")
+EditorLayer::EditorLayer()
+	: Layer("EditorLayer")
 	, m_CameraController(1280.0f / 720.0f)
 {
 	ENGINE_PROFILE_FUNCTION();
 }
 
-void Sandbox2D::OnAttach()
+void EditorLayer::OnAttach()
 {
 	ENGINE_PROFILE_FUNCTION();
 
 	m_CheckerboardTexture = engine::Texture2D::Create("assets/textures/Checkerboard.png");
+
+	engine::FramebufferSpecification fbSpec;
+	fbSpec.width = 1280;
+	fbSpec.height = 720;
+	m_Framebuffer = engine::Framebuffer::Create(fbSpec);
 }
 
-void Sandbox2D::OnDetach()
+void EditorLayer::OnDetach()
 {
 }
 
-void Sandbox2D::OnUpdate(engine::Timestep ts)
+void EditorLayer::OnUpdate(engine::Timestep ts)
 {
 	ENGINE_PROFILE_FUNCTION();
 	
@@ -37,6 +42,7 @@ void Sandbox2D::OnUpdate(engine::Timestep ts)
 	// Render
 	{
 		ENGINE_PROFILE_SCOPE("Renderer Prep");
+		m_Framebuffer->Bind();
 		engine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		engine::RenderCommand::Clear();
 	}
@@ -67,13 +73,20 @@ void Sandbox2D::OnUpdate(engine::Timestep ts)
 			}
 		}
 		engine::Renderer2D::EndScene();
+		m_Framebuffer->Unbind();
 	}
 }
 
-void Sandbox2D::OnImGuiRender()
+void EditorLayer::OnImGuiRender()
 {
 	ENGINE_PROFILE_FUNCTION();
 
+	static bool dockingEnabled = true;
+	if (dockingEnabled)
+	{
+		ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+	}
+	
 	ImGui::Begin("Settings");
 
 	auto stats = engine::Renderer2D::GetStats();
@@ -86,10 +99,13 @@ void Sandbox2D::OnImGuiRender()
 	
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
 
+	uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+	ImGui::Image((void*)textureID, ImVec2{1280.0f, 720.0f}, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+	
 	ImGui::End();
 }
 
-void Sandbox2D::OnEvent(engine::Event& e)
+void EditorLayer::OnEvent(engine::Event& e)
 {
 	m_CameraController.OnEvent(e);
 }

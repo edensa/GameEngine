@@ -6,6 +6,8 @@
 *.log
 Sandbox/imgui.ini
 Sandbox/*.json
+Garage/imgui.ini
+Garage/*.json
 
 # Visual Studio files and folder
 .vs/*

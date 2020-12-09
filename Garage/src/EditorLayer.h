@@ -25,6 +25,8 @@ private:
 	
 	engine::Ref<engine::Texture2D> m_CheckerboardTexture;
 
+	bool m_ViewportFocused = false;
+	bool m_ViewportHovered = false;
 	glm::uvec2 m_ViewportPanelSize = {0, 0};
 
 	struct ProfileResult

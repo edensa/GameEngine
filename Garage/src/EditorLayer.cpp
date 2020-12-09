@@ -33,11 +33,8 @@ void EditorLayer::OnUpdate(engine::Timestep ts)
 	ENGINE_PROFILE_FUNCTION();
 	
 	// Update
-	{
-		ENGINE_PROFILE_SCOPE("CameraController::OnUpdate");
-
+	if (m_ViewportFocused)
 		m_CameraController.OnUpdate(ts);
-	}
 
 	// Render
 	{
@@ -103,6 +100,9 @@ void EditorLayer::OnImGuiRender()
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0,0});
 	ImGui::Begin("Viewport");
+	m_ViewportFocused = ImGui::IsWindowFocused();
+	m_ViewportHovered = ImGui::IsWindowHovered();
+	engine::Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
 	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 	glm::uvec2 viewportPanelSizeI = { (uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y };
 	if (m_ViewportPanelSize != viewportPanelSizeI)

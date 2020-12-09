@@ -25,6 +25,8 @@ private:
 	
 	engine::Ref<engine::Texture2D> m_CheckerboardTexture;
 
+	glm::uvec2 m_ViewportPanelSize = {0, 0};
+
 	struct ProfileResult
 	{
 		const char* Name;

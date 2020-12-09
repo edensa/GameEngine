@@ -99,8 +99,25 @@ void EditorLayer::OnImGuiRender()
 	
 	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
 
+	ImGui::End();
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0,0});
+	ImGui::Begin("Viewport");
+	ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+	glm::uvec2 viewportPanelSizeI = { (uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y };
+	if (m_ViewportPanelSize != viewportPanelSizeI)
+	{
+		m_ViewportPanelSize = viewportPanelSizeI;
+		m_Framebuffer->Resize(m_ViewportPanelSize.x, m_ViewportPanelSize.y);
+
+		m_CameraController.OnResize(m_ViewportPanelSize.x, m_ViewportPanelSize.y);
+	}
+	
+	ENGINE_WARN("Viewport Size: {0}, {1}", viewportPanelSize.x, viewportPanelSize.y);
+	
 	uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-	ImGui::Image((void*)textureID, ImVec2{1280.0f, 720.0f}, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+	ImGui::Image((void*)textureID, ImVec2{ viewportPanelSize.x, viewportPanelSize.y}, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+	ImGui::PopStyleVar();
 	
 	ImGui::End();
 }

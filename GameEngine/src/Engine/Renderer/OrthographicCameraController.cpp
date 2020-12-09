@@ -71,6 +71,12 @@ namespace engine
 		dispatcher.Dispatch<engine::WindowResizeEvent>(ENGINE_BIND_EVENT_FN(OrthographicCameraController::OnWindowResize));
 	}
 
+	void OrthographicCameraController::OnResize(float width, float height)
+	{
+		m_AspectRatio = width / height;
+		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+	}
+
 	OrthographicCamera& OrthographicCameraController::GetCamera()
 	{
 		return m_Camera;
@@ -94,9 +100,8 @@ namespace engine
 	bool OrthographicCameraController::OnWindowResize(WindowResizeEvent& e)
 	{
 		ENGINE_PROFILE_FUNCTION();
-		
-		m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
-		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+
+		OnResize((float)e.GetWidth(), (float)e.GetHeight());
 		return false;
 	}
 	

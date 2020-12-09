@@ -13,12 +13,21 @@ namespace engine
 
 	OpenGLFramebuffer::~OpenGLFramebuffer()
 	{
-		glDeleteTextures(1, &m_ColorAttachment);
 		glDeleteFramebuffers(1, &m_RenderID);
+		glDeleteTextures(1, &m_ColorAttachment);
+		glDeleteTextures(1, &m_DepthAttachment);
 	}
 
 	void OpenGLFramebuffer::Invalidate()
 	{
+		if (m_RenderID)
+		{
+			glDeleteFramebuffers(1, &m_RenderID);
+			glDeleteTextures(1, &m_ColorAttachment);
+			glDeleteTextures(1, &m_DepthAttachment);
+			m_RenderID = m_ColorAttachment = m_DepthAttachment = 0;
+		}
+		
 		glCreateFramebuffers(1, &m_RenderID);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_RenderID);
 		
@@ -48,11 +57,19 @@ namespace engine
 	void OpenGLFramebuffer::Bind()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_RenderID);
+		glViewport(0, 0, m_Specification.width, m_Specification.height);
 	}
 
 	void OpenGLFramebuffer::Unbind()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	void OpenGLFramebuffer::Resize(uint32_t width, uint32_t height)
+	{
+		m_Specification.width = width;
+		m_Specification.height = height;
+		Invalidate();
 	}
 
 	uint32_t OpenGLFramebuffer::GetColorAttachmentRendererID() const

@@ -17,6 +17,8 @@ namespace engine
 		void OnUpdate(Timestep ts); 
 		void OnEvent(Event& e);
 
+		void OnResize(float width, float height);
+
 		void SetZoomLevel(float level) { m_ZoomLevel = level; }
 		float GetZoomLevel() { return m_ZoomLevel; };
 		

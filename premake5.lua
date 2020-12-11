@@ -23,6 +23,7 @@ IncludeDir["glad"] = "GameEngine/vendor/glad/include"
 IncludeDir["imgui"] = "GameEngine/vendor/imgui/"
 IncludeDir["glm"] = "GameEngine/vendor/glm/"
 IncludeDir["stb_image"] = "GameEngine/vendor/stb_image/"
+IncludeDir["entt"] = "GameEngine/vendor/entt/include"
 
 include "GameEngine/vendor/glfw"
 include "GameEngine/vendor/glad"
@@ -49,7 +50,8 @@ project "GameEngine"
 		"%{prj.name}/vendor/stb_image/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.h",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl"
+		"%{prj.name}/vendor/glm/glm/**.inl",
+		"%{prj.name}/vendor/entt/**.hpp"
 	}
 	
 	defines
@@ -66,7 +68,8 @@ project "GameEngine"
 		"%{IncludeDir.glad}",
 		"%{IncludeDir.imgui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}"
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.entt}"
 	}
 
 	links 
@@ -120,7 +123,8 @@ project "Garage"
 		"GameEngine/vendor/spdlog/include",
 		"GameEngine/src",
 		"%{IncludeDir.imgui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.entt}"
 	}
 
 	links
@@ -167,7 +171,8 @@ project "Sandbox"
 		"GameEngine/vendor/spdlog/include",
 		"GameEngine/src",
 		"%{IncludeDir.imgui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.entt}"
 	}
 
 	links

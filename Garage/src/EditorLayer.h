@@ -2,40 +2,48 @@
 
 #include "Engine.h"
 
-class EditorLayer : public engine::Layer
+namespace engine
 {
-public:
-	EditorLayer();
-	virtual ~EditorLayer() = default;
 	
-	virtual void OnAttach() override;
-	virtual void OnDetach() override;
-	
-	virtual void OnUpdate(engine::Timestep ts) override;
-	virtual void OnImGuiRender() override;
-	virtual void OnEvent(engine::Event& e) override;
-
-private:
-	engine::OrthographicCameraController m_CameraController;
-
-	// Temp
-	engine::Ref<engine::VertexArray> m_SquareVA;
-	engine::Ref<engine::Shader> m_FlatColorShader;
-	engine::Ref<engine::Framebuffer> m_Framebuffer;
-	
-	engine::Ref<engine::Texture2D> m_CheckerboardTexture;
-
-	bool m_ViewportFocused = false;
-	bool m_ViewportHovered = false;
-	glm::uvec2 m_ViewportSize = {0, 0};
-
-	struct ProfileResult
+	class EditorLayer : public Layer
 	{
-		const char* Name;
-		float Time;
-	};
+	public:
+		EditorLayer();
+		virtual ~EditorLayer() = default;
 
-	std::vector<ProfileResult> m_ProfileResults;
+		virtual void OnAttach() override;
+		virtual void OnDetach() override;
+
+		virtual void OnUpdate(Timestep ts) override;
+		virtual void OnImGuiRender() override;
+		virtual void OnEvent(Event& e) override;
+
+	private:
+		OrthographicCameraController m_CameraController;
+
+		// Temp
+		Ref<VertexArray> m_SquareVA;
+		Ref<Shader> m_FlatColorShader;
+		Ref<Framebuffer> m_Framebuffer;
+
+		Ref<Scene> m_ActiveScene;
+		Entity m_SquareEntity;
+		
+		Ref<Texture2D> m_CheckerboardTexture;
+
+		bool m_ViewportFocused = false;
+		bool m_ViewportHovered = false;
+		glm::uvec2 m_ViewportSize = { 0, 0 };
+
+		struct ProfileResult
+		{
+			const char* Name;
+			float Time;
+		};
+
+		std::vector<ProfileResult> m_ProfileResults;
+
+		glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+	};
 	
-	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
-};
+}

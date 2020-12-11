@@ -17,6 +17,10 @@
 
 #include "Engine/ImGui/ImGuiLayer.h"
 
+#include "Engine/Scene/Scene.h"
+#include "Engine/Scene/Component.h"
+#include "Engine/Scene/Entity.h"
+
 // ---Renderer------------------------------------------------------------------
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Renderer/Renderer2D.h"

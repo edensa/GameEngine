@@ -1,24 +1,28 @@
 #include "EditorLayer.h"
 
-
-class GarageApp : public engine::Application
+namespace engine
 {
-public:
-	GarageApp()
-		: Application("Garage Editor")
+	
+	class GarageApp : public Application
 	{
-		PushLayer(new EditorLayer());
-	}
+	public:
+		GarageApp()
+			: Application("Garage Editor")
+		{
+			PushLayer(new EditorLayer());
+		}
 
-	virtual ~GarageApp()
+		virtual ~GarageApp()
+		{
+		}
+
+	};
+
+	Application* CreateApplication()
 	{
+		return new GarageApp();
 	}
-
-};
-
-engine::Application* engine::CreateApplication()
-{
-	return new GarageApp();
+	
 }
 
 #include "Engine/Core/EntryPoint.h"

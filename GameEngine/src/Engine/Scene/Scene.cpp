@@ -61,8 +61,22 @@ namespace engine
 
 	void Scene::OnUpdate(Timestep ts)
 	{
-		// Render 2D
+		// Update Scripts
+		{
+			m_Registry.view<NativeScriptComponent>().each([=](auto entity, NativeScriptComponent& nsc)
+			{
+				if (!nsc.Instance)
+				{
+					nsc.InstantiateFunction();
+					nsc.Instance->m_Entity = { entity, this };
+					nsc.OnCreateFunction(nsc.Instance);
+				}
+
+				nsc.OnUpdateFunction(nsc.Instance, ts);
+			});
+		}
 		
+		// Render 2D
 		const Camera* mainCamera = nullptr;
 		glm::mat4* cameraTransform = nullptr;
 		{

@@ -70,6 +70,8 @@ namespace engine
 		};
 		
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
+
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 	}
 
 	void EditorLayer::OnDetach()
@@ -117,6 +119,8 @@ namespace engine
 			ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 		}
 
+		m_SceneHierarchyPanel.OnImGuiRender();
+
 		ImGui::Begin("Settings");
 
 		auto stats = Renderer2D::GetStats();
@@ -154,7 +158,6 @@ namespace engine
 				camera.SetOrthographicSize(orthoSize);
 			
 		}
-
 
 		ImGui::End();
 

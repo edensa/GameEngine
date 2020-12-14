@@ -119,7 +119,11 @@ namespace engine
 		static bool dockingEnabled = true;
 		if (dockingEnabled)
 		{
+			ImGuiStyle& style = ImGui::GetStyle();
+			float minWinSizeX = style.WindowMinSize.x;
+			style.WindowMinSize.x = 370.0f;
 			ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+			style.WindowMinSize.x = minWinSizeX;
 		}
 
 		m_SceneHierarchyPanel.OnImGuiRender();

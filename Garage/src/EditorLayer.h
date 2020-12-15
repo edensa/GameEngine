@@ -20,6 +20,11 @@ namespace engine
 		virtual void OnEvent(Event& e) override;
 
 	private:
+		void NewScene();
+		void OpenScene();
+		void SaveSceneAs();
+		bool OnKeyPressed(KeyPressedEvent& e);
+		
 		OrthographicCameraController m_CameraController;
 
 		// Temp

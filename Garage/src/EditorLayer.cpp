@@ -7,6 +7,8 @@
 
 #include "Engine/Scene/SceneSerializer.h"
 
+#include "Engine/Utils/PlatformUtils.h"
+
 namespace engine
 {
 
@@ -135,16 +137,15 @@ namespace engine
 		{
 			if (ImGui::BeginMenu("File"))
 			{
-				if (ImGui::MenuItem("Serialize"))
-				{
-					SceneSerializer serializer(m_ActiveScene);
-					serializer.Serialize("assets/scenes/Examples.ngn");
-				}
-				if (ImGui::MenuItem("Deserialize"))
-				{
-					SceneSerializer serializer(m_ActiveScene);
-					serializer.Deserialize("assets/scenes/Examples.ngn");
-				}
+				if (ImGui::MenuItem("New", "Ctrl+N"))
+					NewScene();
+				
+				if (ImGui::MenuItem("Open...", "Ctrl+O"))
+					OpenScene();
+				
+				if (ImGui::MenuItem("Save as...", "Ctrl+Shift+S"))
+					SaveSceneAs();
+				
 				if (ImGui::MenuItem("Exit"))
 					Application::Get().Close();
 				ImGui::EndMenu();
@@ -185,6 +186,69 @@ namespace engine
 	void EditorLayer::OnEvent(Event& e)
 	{
 		m_CameraController.OnEvent(e);
+
+		EventDispatcher dispatcher(e);
+
+		dispatcher.Dispatch<KeyPressedEvent>(ENGINE_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
 	}
 
+	void EditorLayer::NewScene()
+	{
+		m_ActiveScene = CreateRef<Scene>();
+		m_ActiveScene->OnViewportResize(m_ViewportSize.x, m_ViewportSize.y);
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+	}
+
+	void EditorLayer::OpenScene()
+	{
+		std::string filepath = FileDialogs::OpenFile("Engine Scene (*.ngn)\0*.ngn\0");
+		if (!filepath.empty())
+		{
+			NewScene();
+
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.Deserialize(filepath);
+		}
+	}
+
+	void EditorLayer::SaveSceneAs()
+	{
+		std::string filepath = FileDialogs::SaveFile("Engine Scene (*.ngn)\0*.ngn\0");
+		if (!filepath.empty())
+		{
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.Serialize(filepath);
+		}
+	}
+
+	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
+	{
+		if (e.GetRepeatCount() > 0)
+			return false;
+
+		bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
+		bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
+		switch (e.GetKeyCode())
+		{
+			case KeyCode::N:
+			{
+				if (control)
+					NewScene();
+				break;
+			}
+			case KeyCode::O:
+			{
+				if (control)
+					OpenScene();
+				break;
+			}
+			case KeyCode::S:
+			{
+				if (control && shift)
+					SaveSceneAs();
+				break;
+			}
+		}
+		
+	}
 }

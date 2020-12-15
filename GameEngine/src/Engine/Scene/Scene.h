@@ -1,7 +1,8 @@
 #pragma once
-#include <entt.hpp>
 
 #include "Engine/Core/Timestep.h"
+
+#include <entt.hpp>
 
 namespace engine
 {
@@ -28,6 +29,7 @@ namespace engine
 		uint32_t m_ViewportHeight = 0;
 		
 		friend class Entity;
+		friend class SceneSerializer;
 		friend class SceneHierarchyPanel;
 	};
 	

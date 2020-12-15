@@ -5,6 +5,8 @@
 
 #include <chrono>
 
+#include "Engine/Scene/SceneSerializer.h"
+
 namespace engine
 {
 
@@ -28,6 +30,7 @@ namespace engine
 
 		m_ActiveScene = CreateRef<Scene>();
 
+#if 0
 		Entity squareEntity = m_ActiveScene->CreateEntity("Green Square");
 		squareEntity.AddComponent<SpriteRendererComponent>(glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
 
@@ -73,8 +76,9 @@ namespace engine
 		};
 		
 		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
-
+#endif
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
 	}
 
 	void EditorLayer::OnDetach()
@@ -124,6 +128,29 @@ namespace engine
 			style.WindowMinSize.x = 370.0f;
 			ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 			style.WindowMinSize.x = minWinSizeX;
+		}
+
+		// Menu Bar
+		if (ImGui::BeginMainMenuBar())
+		{
+			if (ImGui::BeginMenu("File"))
+			{
+				if (ImGui::MenuItem("Serialize"))
+				{
+					SceneSerializer serializer(m_ActiveScene);
+					serializer.Serialize("assets/scenes/Examples.ngn");
+				}
+				if (ImGui::MenuItem("Deserialize"))
+				{
+					SceneSerializer serializer(m_ActiveScene);
+					serializer.Deserialize("assets/scenes/Examples.ngn");
+				}
+				if (ImGui::MenuItem("Exit"))
+					Application::Get().Close();
+				ImGui::EndMenu();
+			}
+
+			ImGui::EndMainMenuBar();
 		}
 
 		m_SceneHierarchyPanel.OnImGuiRender();

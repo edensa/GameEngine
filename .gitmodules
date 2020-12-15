@@ -17,3 +17,6 @@
 [submodule "GameEngine/vendor/yaml-cpp"]
 	path = GameEngine/vendor/yaml-cpp
 	url = git@github.com:edensa/yaml-cpp.git
+[submodule "GameEngine/vendor/ImGuizmo"]
+	path = GameEngine/vendor/ImGuizmo
+	url = git@github.com:edensa/ImGuizmo.git

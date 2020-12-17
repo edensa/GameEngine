@@ -92,7 +92,7 @@ namespace engine
 
 	bool EditorCamera::OnMouseScroll(MouseScrolledEvent& e)
 	{
-		float delta = e.GetYOffset() * 0.1;
+		float delta = e.GetYOffset() * 0.1f;
 		MouseZoom(delta);
 		UpdateView();
 		return false;

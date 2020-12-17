@@ -6,10 +6,9 @@
 #include <chrono>
 
 #include "Engine/Math/Math.h"
-
 #include "Engine/Scene/SceneSerializer.h"
-
 #include "Engine/Utils/PlatformUtils.h"
+#include "Engine/Debug/Instrumentor.h"
 
 #include <ImGuizmo.h>
 
@@ -70,13 +69,13 @@ namespace engine
 				auto& translation = GetComponent<TransformComponent>().Translation;
 				float speed = 5.0f;
 
-				if (Input::IsKeyPressed(KeyCode::A))
+				if (Input::IsKeyPressed(Key::A))
 					translation.x -= speed * ts;
-				if (Input::IsKeyPressed(KeyCode::D))
+				if (Input::IsKeyPressed(Key::D))
 					translation.x += speed * ts;
-				if (Input::IsKeyPressed(KeyCode::W))
+				if (Input::IsKeyPressed(Key::W))
 					translation.y += speed * ts;
-				if (Input::IsKeyPressed(KeyCode::S))
+				if (Input::IsKeyPressed(Key::S))
 					translation.y -= speed * ts;
 				
 			}
@@ -102,9 +101,9 @@ namespace engine
 			(spec.width != m_ViewportSize.x || spec.height != m_ViewportSize.y))
 		{
 			m_Framebuffer->Resize(m_ViewportSize.x, m_ViewportSize.y);
-			m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+			m_CameraController.OnResize(static_cast<float>(m_ViewportSize.x), static_cast<float>(m_ViewportSize.y));
 			m_ActiveScene->OnViewportResize(m_ViewportSize.x, m_ViewportSize.y);
-			m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
+			m_EditorCamera.SetViewportSize(static_cast<float>(m_ViewportSize.x), static_cast<float>(m_ViewportSize.y));
 		}
 
 		// Update
@@ -184,8 +183,8 @@ namespace engine
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
-		uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-		ImGui::Image((void*)textureID, ImVec2{ viewportPanelSize.x, viewportPanelSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+		uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+		ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ viewportPanelSize.x, viewportPanelSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
 		// Gizmos
 		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
@@ -214,7 +213,7 @@ namespace engine
 			auto& tc = selectedEntity.GetComponent<TransformComponent>();
 			glm::mat4 transform = tc.GetTransform();
 
-			bool snap = Input::IsKeyPressed(KeyCode::LeftControl);
+			bool snap = Input::IsKeyPressed(Key::LeftControl);
 			float snapValue = m_GizmoType == ImGuizmo::OPERATION::ROTATE ? 5.0f : 0.5f;
 
 			float snapValues[3] = { snapValue, snapValue, snapValue };
@@ -287,19 +286,19 @@ namespace engine
 		bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
 		switch (e.GetKeyCode())
 		{
-			case KeyCode::N:
+			case Key::N:
 			{
 				if (control)
 					NewScene();
 				break;
 			}
-			case KeyCode::O:
+			case Key::O:
 			{
 				if (control)
 					OpenScene();
 				break;
 			}
-			case KeyCode::S:
+			case Key::S:
 			{
 				if (control && shift)
 					SaveSceneAs();
@@ -307,27 +306,28 @@ namespace engine
 			}
 
 			// Gizmos
-			case KeyCode::Q:
+			case Key::Q:
 			{
 				m_GizmoType = -1;
 				break;
 			}
-			case KeyCode::W:
+			case Key::W:
 			{
 				m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
 				break;
 			}
-			case KeyCode::E:
+			case Key::E:
 			{
 				m_GizmoType = ImGuizmo::OPERATION::ROTATE;
 				break;
 			}
-			case KeyCode::R:
+			case Key::R:
 			{
 				m_GizmoType = ImGuizmo::OPERATION::SCALE;
 				break;
 			}
 		}
-		
+
+		return false;
 	}
 }

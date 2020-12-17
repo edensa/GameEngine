@@ -26,18 +26,11 @@ namespace engine
 		ENGINE_CORE_INFO("	Renderer: {0}", glGetString(GL_RENDERER));
 		ENGINE_CORE_INFO("	Version: {0}", glGetString(GL_VERSION));
 
-#ifdef ENGINE_ENABLE_ASSERTS
-		int versionMajor;
-		int versionMinor;
-		glGetIntegerv(GL_MAJOR_VERSION, &versionMajor);
-		glGetIntegerv(GL_MINOR_VERSION, &versionMinor);
-
-		ENGINE_CORE_ASSERT(versionMajor > 4 || (versionMajor == 4 && versionMinor >= 5), "Engine requires at least OpenGL version 4.5!");
+		ENGINE_CORE_ASSERT(GLVersion.major > 4 || (GLVersion.major == 4 && GLVersion.minor >= 5), "Engine requires at least OpenGL version 4.5!");
 
 		int texture_units;
 		glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &texture_units);
 		ENGINE_CORE_INFO("  texture_units: {0}", texture_units);
-#endif
 	}
 
 	void OpenGLContext::SwapBuffers()

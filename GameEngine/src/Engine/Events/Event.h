@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ngpch.h"
+#include <functional>
 
 #include "Engine/Core/Base.h"
 

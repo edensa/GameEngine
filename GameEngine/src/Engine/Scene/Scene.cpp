@@ -31,8 +31,8 @@ namespace engine
 	{
 		Renderer2D::BeginScene(camera);
 
-		auto group1 = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-		for (auto entity : group1)
+		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+		for (auto entity : group)
 		{
 			auto& [transform, sprite] = m_Registry.get<TransformComponent, SpriteRendererComponent>(entity);
 
@@ -82,8 +82,8 @@ namespace engine
 		{
 			Renderer2D::BeginScene(mainCamera->GetProjection(), cameraTransform);
 
-			auto group1 = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-			for (auto entity : group1)
+			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+			for (auto entity : group)
 			{
 				auto& [transform, sprite] = m_Registry.get<TransformComponent, SpriteRendererComponent>(entity);
 

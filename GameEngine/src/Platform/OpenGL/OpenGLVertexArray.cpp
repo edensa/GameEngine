@@ -97,7 +97,7 @@ namespace engine
 						ShaderDataTypeToOpenGLBaseType(element.Type),
 						element.Normalized ? GL_TRUE : GL_FALSE,
 						layout.GetStride(),
-						(const void*)(sizeof(float) * count * i));
+						(const void*)(element.Offset + sizeof(float) * count * i));
 					// assumes matrices are used for instance drawing only
 					// TODO: improve the API for this
 					glVertexAttribDivisor(m_VertexBufferIndex, 1);

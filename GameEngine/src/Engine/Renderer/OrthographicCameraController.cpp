@@ -19,25 +19,25 @@ namespace engine
 	{
 		ENGINE_PROFILE_FUNCTION();
 		
-		if (Input::IsKeyPressed(ENGINE_KEY_A))
+		if (Input::IsKeyPressed(Key::A))
 		{
 			m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 		}
 
-		else if (Input::IsKeyPressed(ENGINE_KEY_D))
+		else if (Input::IsKeyPressed(Key::D))
 		{
 			m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y += sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 		}
 
-		if (Input::IsKeyPressed(ENGINE_KEY_W))
+		if (Input::IsKeyPressed(Key::W))
 		{
 			m_CameraPosition.x += -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 		}
 
-		else if (Input::IsKeyPressed(ENGINE_KEY_S))
+		else if (Input::IsKeyPressed(Key::S))
 		{
 			m_CameraPosition.x -= -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
@@ -45,10 +45,10 @@ namespace engine
 		
 		if (m_Rotation)
 		{
-			if (engine::Input::IsKeyPressed(ENGINE_KEY_Q))
+			if (engine::Input::IsKeyPressed(Key::Q))
 				m_CameraRotation += m_CameraRotationSpeed * ts;
 
-			else if (engine::Input::IsKeyPressed(ENGINE_KEY_E))
+			else if (engine::Input::IsKeyPressed(Key::E))
 				m_CameraRotation -= m_CameraRotationSpeed * ts;
 
 			if (m_CameraRotation > 180.0f || m_CameraRotation <= -180.0f)

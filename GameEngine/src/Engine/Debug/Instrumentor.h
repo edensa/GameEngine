@@ -213,8 +213,10 @@ namespace engine
 	#define ENGINE_PROFILE_BEGIN_SESSION(name, filepath)		::engine::Instrumentor::Get().BeginSession(name, filepath)
 	#define ENGINE_PROFILE_END_SESSION()						::engine::Instrumentor::Get().EndSession()
 	#define ENGINE_PROFILE_SCOPE(name)							::engine::InstrumentationTimer timer##__LINE__(name)
-	#define ENGINE_PROFILE_SCOPE(name)							constexpr auto fixedName = ::engine::InstrumentorUtils::CleanupOutputString(name, "__cdecl ");\
-											                    ::Engine::InstrumentationTimer timer##__LINE__(fixedName.Data)
+    #define ENGINE_PROFILE_SCOPE_LINE2(name, line)			    constexpr auto fixedName##line = ::engine::InstrumentorUtils::CleanupOutputString(name, "__cdecl ");\
+											                    ::Engine::InstrumentationTimer timer##line(fixedName##line.Data)
+	#define ENGINE_PROFILE_SCOPE_LINE(name, line)			    ENGINE_PROFILE_SCOPE_LINE2(name, __LINE__)
+	#define ENGINE_PROFILE_SCOPE(name)							ENGINE_PROFILE_SCOPE_LINE(name)
 	#define ENGINE_PROFILE_FUNCTION()							ENGINE_PROFILE_SCOPE(ENGINE_FUNC_SIG)
 #else
 	#define ENGINE_PROFILE_BEGIN_SESSION(name, filepath)

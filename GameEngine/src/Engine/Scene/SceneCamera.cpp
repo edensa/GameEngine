@@ -30,7 +30,7 @@ namespace engine
 
 	void SceneCamera::SetOrthographic(float size, float nearClip, float farClip)
 	{
-		m_ProjectionjectionType = ProjectionType::Orthographic;
+		m_ProjectionType = ProjectionType::Orthographic;
 		m_OrthographicSize = size;
 		m_OrthographicNear = nearClip;
 		m_OrthographicFar = farClip;
@@ -39,7 +39,7 @@ namespace engine
 
 	void SceneCamera::SetPerspective(float verticalFov, float nearClip, float farClip)
 	{
-		m_ProjectionjectionType = ProjectionType::Perspective;
+		m_ProjectionType = ProjectionType::Perspective;
 		m_PerspectiveFOV = verticalFov;
 		m_PerspectiveNear = nearClip;
 		m_PerspectiveFar = farClip;
@@ -72,17 +72,17 @@ namespace engine
 
 	void SceneCamera::SetProjectionType(ProjectionType type)
 	{
-		m_ProjectionjectionType = type;
+		m_ProjectionType = type;
 		RecalculateProjection();
 	}
 
 	void SceneCamera::RecalculateProjection()
 	{
-		if (m_ProjectionjectionType == ProjectionType::Perspective)
+		if (m_ProjectionType == ProjectionType::Perspective)
 		{
 			m_Projection = glm::perspective(m_PerspectiveFOV, m_AspectRatio, m_PerspectiveNear, m_PerspectiveFar);
 		}
-		else /* m_ProjectionjectionType == ProjectionType::Orthographic */
+		else /* m_ProjectionType == ProjectionType::Orthographic */
 		{
 			float orthoLeft = -m_OrthographicSize * m_AspectRatio * 0.5f;
 			float orthoRight = m_OrthographicSize * m_AspectRatio * 0.5f;

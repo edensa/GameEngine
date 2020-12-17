@@ -32,13 +32,13 @@ namespace engine
 		float GetOrthographicFarClip() const { return m_OrthographicFar; }
 		void SetOrthographicFarClip(float farClip);
 
-		ProjectionType GetProjectionType() const { return m_ProjectionjectionType; };
+		ProjectionType GetProjectionType() const { return m_ProjectionType; };
 		void SetProjectionType(ProjectionType type);;
 
 	private:
 		void RecalculateProjection();
 
-		ProjectionType m_ProjectionjectionType = ProjectionType::Orthographic;
+		ProjectionType m_ProjectionType = ProjectionType::Orthographic;
 
 		float m_PerspectiveFOV = glm::radians(45.0f);
 		float m_PerspectiveNear = 0.01f, m_PerspectiveFar = 1000.0f;

@@ -3,6 +3,8 @@
 #include "Engine.h"
 #include "Panels/SceneHierarchyPanel.h"
 
+#include "Engine/Renderer/EditorCamera.h"
+
 namespace engine
 {
 	
@@ -38,6 +40,8 @@ namespace engine
 		Entity m_SecondCamera;
 
 		bool m_PrimaryCamera = true;
+
+		EditorCamera m_EditorCamera;
 		
 		Ref<Texture2D> m_CheckerboardTexture;
 

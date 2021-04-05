@@ -29,6 +29,7 @@ namespace engine
 		m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
 
 		FramebufferSpecification fbSpec;
+		fbSpec.TextureSpecification = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
 		fbSpec.width = 1280;
 		fbSpec.height = 720;
 		m_Framebuffer = Framebuffer::Create(fbSpec);

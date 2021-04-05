@@ -20,12 +20,17 @@ namespace engine
 
 		virtual void Resize(uint32_t width, uint32_t height) override;
 
-		virtual uint32_t GetColorAttachmentRendererID() const override;
+		virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const override;
 		
 	private:
 		uint32_t m_RenderID = 0;
-		uint32_t m_ColorAttachment = 0, m_DepthAttachment = 0;
 		FramebufferSpecification m_Specification;
+
+		std::vector<FramebufferTextureSpecification> m_ColorAttachmentSpecifications;
+		FramebufferTextureSpecification m_DepthAttachmentSpecification;
+
+		std::vector<uint32_t> m_ColorAttachments;
+		uint32_t m_DepthAttachment = 0;
 	};
 
 }

@@ -120,6 +120,9 @@ namespace engine
 				case FramebufferTextureFormat::RGBA8:
 					Utils::AttachColorTexture(m_ColorAttachments[i], m_Specification.samples, GL_RGB8, m_Specification.width, m_Specification.height, i);
 					break;
+				case FramebufferTextureFormat::RED_INTEGER:
+					Utils::AttachColorTexture(m_ColorAttachments[i], m_Specification.samples, GL_R32I, m_Specification.width, m_Specification.height, i);
+					break;
 				default: ENGINE_CORE_ASSERT(false, "unknown texture format!");
 				}
 			}
@@ -176,6 +179,15 @@ namespace engine
 		m_Specification.width = width;
 		m_Specification.height = height;
 		Invalidate();
+	}
+	
+	int OpenGLFramebuffer::ReadPixel(uint32_t index, int x, int y)
+	{
+		ENGINE_CORE_ASSERT(index < m_ColorAttachments.size(), "color attachment index index out of range!");
+		glReadBuffer(GL_COLOR_ATTACHMENT0 + index);
+		int pixelData;
+		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
+		return pixelData;
 	}
 
 	uint32_t OpenGLFramebuffer::GetColorAttachmentRendererID(uint32_t index) const

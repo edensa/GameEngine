@@ -21,6 +21,8 @@ namespace engine
 		virtual void Resize(uint32_t width, uint32_t height) override;
 		virtual int ReadPixel(uint32_t index, int x, int y) override;
 
+		virtual void ClearAttachment(uint32_t index, int value) override;
+
 		virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const override;
 		
 	private:

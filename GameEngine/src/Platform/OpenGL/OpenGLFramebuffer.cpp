@@ -66,6 +66,18 @@ namespace engine
 			default: return false;;
 			}
 		}
+
+		static GLenum EngineTextureFromToGL(FramebufferTextureFormat format)
+		{
+			switch (format)
+			{
+			case FramebufferTextureFormat::RGBA8:       return GL_RGBA8;
+			case FramebufferTextureFormat::RED_INTEGER: return GL_RED_INTEGER;
+			}
+
+			ENGINE_CORE_ASSERT(false, "unknown texture format!");
+			return 0;
+		}
 		
 	}
 	
@@ -188,6 +200,14 @@ namespace engine
 		int pixelData;
 		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
 		return pixelData;
+	}
+
+	void OpenGLFramebuffer::ClearAttachment(uint32_t index, int value)
+	{
+		ENGINE_CORE_ASSERT(index < m_ColorAttachments.size(), "color attachment index index out of range!");
+
+		auto& spec = m_ColorAttachmentSpecifications[index];
+		glClearTexImage(m_ColorAttachments[index], 0, Utils::EngineTextureFromToGL(spec.TextureFormat), GL_INT, &value);
 	}
 
 	uint32_t OpenGLFramebuffer::GetColorAttachmentRendererID(uint32_t index) const

@@ -39,6 +39,8 @@ namespace engine
 		Entity m_CameraEntity;
 		Entity m_SecondCamera;
 
+		Entity m_HoveredEntity;
+
 		bool m_PrimaryCamera = true;
 
 		EditorCamera m_EditorCamera;

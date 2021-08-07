@@ -26,6 +26,7 @@ namespace engine
 		void OpenScene();
 		void SaveSceneAs();
 		bool OnKeyPressed(KeyPressedEvent& e);
+		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
 		
 		OrthographicCameraController m_CameraController;
 

@@ -24,6 +24,7 @@ namespace engine
 		static void BeginScene(const EditorCamera& camera);
 		static void BeginScene(const OrthographicCamera& camera);
 		static void EndScene();
+		static void StartBatch();
 		static void Flush();
 
 		// Primitives

@@ -23,6 +23,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include <filesystem>
+
 #include "Engine/Core/Base.h"
 
 #include "Engine/Core/Log.h"

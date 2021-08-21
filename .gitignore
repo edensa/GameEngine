@@ -16,3 +16,8 @@ Garage/*.json
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
+
+# Directories
+GameEngine/vendor/VulkanSDK
+Garage/assets/cache
+scripts/__pycache__ 

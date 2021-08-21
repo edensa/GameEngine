@@ -48,6 +48,7 @@ namespace engine
 
 	void SceneCamera::SetViewportSize(uint32_t width, uint32_t height)
 	{
+		ENGINE_CORE_ASSERT(width > 0 && height > 0, "viewport size must be positive");
 		m_AspectRatio = (float)width / (float)height;
 		RecalculateProjection();
 	}

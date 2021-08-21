@@ -15,8 +15,8 @@ namespace engine {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application(const std::string& name)
-		: m_LastFrameTime(0.0f)
+	Application::Application(const std::string& name, ApplicationCommandLineArgs args)
+		: m_CommandLineArgs(args)
 	{
 		ENGINE_PROFILE_FUNCTION();
 		ENGINE_CORE_ASSERT(!s_Instance, "Application already exists!");

@@ -6,8 +6,8 @@ namespace engine
 	class GarageApp : public Application
 	{
 	public:
-		GarageApp()
-			: Application("Garage Editor")
+		GarageApp(ApplicationCommandLineArgs args)
+			: Application("Garage Editor", args)
 		{
 			PushLayer(new EditorLayer());
 		}
@@ -18,9 +18,9 @@ namespace engine
 
 	};
 
-	Application* CreateApplication()
+	Application* CreateApplication(ApplicationCommandLineArgs args)
 	{
-		return new GarageApp();
+		return new GarageApp(args);
 	}
 	
 }

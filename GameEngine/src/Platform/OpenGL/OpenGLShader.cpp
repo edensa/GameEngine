@@ -192,7 +192,7 @@ namespace engine
 		shaderc::Compiler compiler;
 		shaderc::CompileOptions options;
 		options.SetTargetEnvironment(shaderc_target_env_vulkan, shaderc_env_version_vulkan_1_2);
-		const bool optimize = true;
+		const bool optimize = false;
 		if (optimize)
 			options.SetOptimizationLevel(shaderc_optimization_level_performance);
 		
@@ -250,7 +250,7 @@ namespace engine
 
 		shaderc::Compiler compiler;
 		shaderc::CompileOptions options;
-		options.SetTargetEnvironment(shaderc_target_env_opengl, shaderc_env_version_opengl_4_5);
+		options.SetTargetEnvironment(shaderc_target_env_opengl_compat, shaderc_env_version_opengl_4_5);
 		const bool optimize = false;
 		if (optimize)
 			options.SetOptimizationLevel(shaderc_optimization_level_performance);
@@ -281,9 +281,11 @@ namespace engine
 				spirv_cross::CompilerGLSL glslCompiler(spirv);
 				m_OpenGLSourceCode[stage] = glslCompiler.compile();
 				auto& source = m_OpenGLSourceCode[stage];
+
+				ENGINE_CORE_INFO("{0}", source.c_str());
 				
 				shaderc::SpvCompilationResult module = compiler.CompileGlslToSpv(
-					source, utils::GLShaderStageToShaderC(stage), m_FilePath.c_str());
+					source, utils::GLShaderStageToShaderC(stage), m_FilePath.c_str(), options);
 				if (module.GetCompilationStatus() != shaderc_compilation_status_success)
 				{
 					ENGINE_CORE_ERROR(module.GetErrorMessage());

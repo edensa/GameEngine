@@ -9,12 +9,12 @@ from io import BytesIO
 from zipfile import ZipFile
 
 VULKAN_SDK = os.environ.get('VULKAN_SDK')
-VULKAN_SDK_INSTALLER_URL = 'https://sdk.lunarg.com/sdk/download/1.2.182.0/windows/vulkan_sdk.exe'
-ENGINE_VULKAN_VERSION = '1.2.182.0'
+VULKAN_SDK_INSTALLER_URL = 'https://sdk.lunarg.com/sdk/download/1.2.170.0/windows/vulkan_sdk.exe'
+ENGINE_VULKAN_VERSION = '1.2.170.0'
 OUTPUT_DIRECTORY = "GameEngine/vendor/VulkanSDK"
 VULKAN_SDK_EXE_PATH = f"{OUTPUT_DIRECTORY}/VulkanSDK.exe"
 
-VULKAN_SDK_DEBUG_LIBS_URL = 'https://sdk.lunarg.com/sdk/download/1.2.182.0/windows/VulkanSDK-1.2.182.0-DebugLibs.zip'
+VULKAN_SDK_DEBUG_LIBS_URL = 'https://sdk.lunarg.com/sdk/download/1.2.170.0/windows/VulkanSDK-1.2.170.0-DebugLibs.zip'
 TEMP_ZIPFILE = f"{OUTPUT_DIRECTORY}/VulkanSDK.zip"
 
 def install_vulkan_sdk():

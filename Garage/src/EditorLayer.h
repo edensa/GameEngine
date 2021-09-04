@@ -2,6 +2,7 @@
 
 #include "Engine.h"
 #include "Panels/SceneHierarchyPanel.h"
+#include "Panels/ContentBrowserPanel.h"
 
 #include "Engine/Renderer/EditorCamera.h"
 
@@ -24,6 +25,7 @@ namespace engine
 	private:
 		void NewScene();
 		void OpenScene();
+		void OpenScene(const std::filesystem::path& path);
 		void SaveSceneAs();
 		bool OnKeyPressed(KeyPressedEvent& e);
 		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
@@ -67,6 +69,8 @@ namespace engine
 		
 		// Panels
 		SceneHierarchyPanel m_SceneHierarchyPanel;
+		ContentBrowserPanel m_ContentBrowserPanel;
+
 	};
 	
 }

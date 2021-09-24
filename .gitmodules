@@ -20,3 +20,6 @@
 [submodule "GameEngine/vendor/ImGuizmo"]
 	path = GameEngine/vendor/ImGuizmo
 	url = git@github.com:edensa/ImGuizmo.git
+[submodule "GameEngine/vendor/box2d"]
+	path = GameEngine/vendor/box2d
+	url = git@github.com:edensa/box2d.git

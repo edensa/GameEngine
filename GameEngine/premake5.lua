@@ -32,6 +32,7 @@ project "GameEngine"
 	{
 		"vendor/spdlog/include",
 		"src",
+		"%{IncludeDir.Box2D}",
 		"%{IncludeDir.glfw}",
 		"%{IncludeDir.glad}",
 		"%{IncludeDir.imgui}",
@@ -45,6 +46,7 @@ project "GameEngine"
 
 	links 
 	{ 
+		"Box2D",
 		"GLFW",
 		"Glad",
 		"ImGui",

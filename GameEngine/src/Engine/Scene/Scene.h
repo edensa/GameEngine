@@ -5,6 +5,8 @@
 
 #include <entt.hpp>
 
+class b2World;
+
 namespace engine
 {
 
@@ -17,6 +19,9 @@ namespace engine
 
 		Entity CreateEntity(const std::string& name = std::string());
 		void DestroyEntity(Entity entity);
+
+		void onRuntimeStart();
+		void onRuntimeStop();
 
 		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
 		void OnUpdateRuntime(Timestep ts);
@@ -31,6 +36,8 @@ namespace engine
 		uint32_t m_ViewportWidth = 0;
 		uint32_t m_ViewportHeight = 0;
 		
+		b2World* m_PhysicsWorld = nullptr;
+
 		friend class Entity;
 		friend class SceneSerializer;
 		friend class SceneHierarchyPanel;

@@ -336,11 +336,13 @@ namespace engine
 	void EditorLayer::OnScenePlay()
 	{
 		m_SceneState = SceneState::Play;
+		m_ActiveScene->onRuntimeStart();
 	}
 
 	void EditorLayer::OnSceneStop()
 	{
 		m_SceneState = SceneState::Edit;
+		m_ActiveScene->onRuntimeStop();
 	}
 
 	void EditorLayer::OnEvent(Event& e)

@@ -134,9 +134,10 @@ namespace engine
 
 	static void SerializeEntity(YAML::Emitter& out, Entity entity)
 	{
+		ENGINE_CORE_ASSERT(entity.HasComponent<IDComponent>(), "missing id component");
+
 		out << YAML::BeginMap;
-		// TODO: entity ID goes here
-		out << YAML::Key << "Entity" << YAML::Value << "12837192831273";
+		out << YAML::Key << "Entity" << YAML::Value << entity.GetUUID();
 
 		if (entity.HasComponent<TagComponent>())
 		{
@@ -275,7 +276,7 @@ namespace engine
 		{
 			for (auto entity : entities)
 			{
-				uint64_t uuid = entity["Entity"].as<uint64_t>(); // TODO
+				uint64_t uuid = entity["Entity"].as<uint64_t>();
 
 				std::string name;
 				auto tagComponent = entity["TagComponent"];
@@ -284,7 +285,7 @@ namespace engine
 
 				ENGINE_CORE_TRACE("Deserialize entity with ID = {0}, name = {1}", uuid, name);
 
-				Entity deserializedEntity = m_Scene->CreateEntity(name);
+				Entity deserializedEntity = m_Scene->CreateEntityWithUUID(uuid, name);
 
 				auto transformComponent = entity["TransformComponent"];
 				if (transformComponent)

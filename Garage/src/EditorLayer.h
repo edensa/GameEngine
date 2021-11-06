@@ -25,6 +25,8 @@ namespace engine
 		void OnScenePlay();
 		void OnSceneStop();
 
+		void OnDuplicateEntity();
+
 		// UI Panels
 		void UI_Toolbar();
 
@@ -32,6 +34,8 @@ namespace engine
 		void NewScene();
 		void OpenScene();
 		void OpenScene(const std::filesystem::path& path);
+		void SerializeScene(Ref<Scene> scene, const std::filesystem::path& path);
+		void SaveScene();
 		void SaveSceneAs();
 		bool OnKeyPressed(KeyPressedEvent& e);
 		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
@@ -44,6 +48,10 @@ namespace engine
 		Ref<Framebuffer> m_Framebuffer;
 
 		Ref<Scene> m_ActiveScene;
+		Ref<Scene> m_EditorScene, m_RuntimeScene;
+
+		std::filesystem::path m_EditorScenePath;
+
 		Entity m_SquareEntity;
 		Entity m_CameraEntity;
 		Entity m_SecondCamera;

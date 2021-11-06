@@ -1,5 +1,24 @@
 Scene: Untitled
 Entities:
+  - Entity: 15361369613188431153
+    TagComponent:
+      Tag: Sprite
+    TransformComponent:
+      Translation: [1.01152146, -1.38249576, -0.0278887749]
+      Rotation: [0, 0, 0.366974086]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+    RigidBody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.300000012
+      RestitutionThreshold: 0.5
   - Entity: 9943303748795335686
     TagComponent:
       Tag: Camera
@@ -22,9 +41,9 @@ Entities:
     TagComponent:
       Tag: Sprite
     TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 3.19525441e-07]
-      Scale: [1, 1, 1]
+      Translation: [0.863127708, 1.34263062, 0]
+      Rotation: [0, 0, -0.354711592]
+      Scale: [0.999999881, 0.999999881, 1]
     SpriteRendererComponent:
       Color: [1, 1, 1, 1]
     RigidBody2DComponent:
@@ -45,7 +64,7 @@ Entities:
       Rotation: [0, 0, 0]
       Scale: [20, 0.5, 1]
     SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
+      Color: [0.891891897, 0.507561743, 0.375352204, 1]
     RigidBody2DComponent:
       BodyType: Static
       FixedRotation: false
@@ -55,4 +74,42 @@ Entities:
       Density: 1
       Friction: 0.5
       Restitution: 0
+      RestitutionThreshold: 0.5
+  - Entity: 2212160029841037514
+    TagComponent:
+      Tag: Sprite
+    TransformComponent:
+      Translation: [1.49011612e-08, 0, 0]
+      Rotation: [0, 0, 3.19525441e-07]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+    RigidBody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.300000012
+      RestitutionThreshold: 0.5
+  - Entity: 15959578175170571568
+    TagComponent:
+      Tag: Sprite
+    TransformComponent:
+      Translation: [0.363864511, -3.2232728, -0.0278887749]
+      Rotation: [0, 0, -0.0720481277]
+      Scale: [0.999993324, 0.999993324, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+    RigidBody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0.300000012
       RestitutionThreshold: 0.5

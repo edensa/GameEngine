@@ -26,19 +26,3 @@ namespace engine
     }
 
 }
-
-namespace std
-{
-
-    template<>
-	struct hash<engine::UUID>
-    {
-
-        std::size_t operator()(const engine::UUID& uuid) const
-        {
-            return hash<uint64_t>()((uint64_t)uuid);
-        }
-	    
-    };
-
-}

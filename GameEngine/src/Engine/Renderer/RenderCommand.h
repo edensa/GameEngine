@@ -28,9 +28,19 @@ namespace engine
 			s_RendererAPI->DrawIndexed(vertexArray, indexCount);
 		}
 
+		static void DrawLines(const Ref<VertexArray>& vertexArray, uint32_t vertexCount)
+		{
+			s_RendererAPI->DrawLines(vertexArray, vertexCount);
+		}
+
 		static void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
 		{
 			s_RendererAPI->SetViewport(x, y, width, height);
+		}
+
+		static void SetLineWidth(float width)
+		{
+			s_RendererAPI->SetLineWidth(width);
 		}
 
 	private:
